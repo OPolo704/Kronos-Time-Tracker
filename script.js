@@ -1,25 +1,25 @@
 class Session {
     constructor() {
-        let name = "Untitled Session";
-        let startTime;
-        let endTime;
-        let category = "Unsorted";
+        this.name = "Untitled Session";
+        this.startTime;
+        this.endTime;
+        this.category = catUnsorted;
     }
 
     setName(name){
-        this.name = name;
-    }
-
-    setStartTime(startTime){
-        this.startTime = startTime;
-    }
-
-    setEndTime(endTime){
-        this.endTime = endTime;
+        if(name && typeof name === 'string'){
+            this.name = name;
+        } else {
+            console.log('What you have entered is not a valid name.'); //implement UI change
+        }
     }
 
     setCategory(category){
-        this.category = category;
+        if(category){
+            this.category = category;
+        } else {
+            console.log('category does not exist'); // implement UI change
+        }
     }
 
     getDuration(){
@@ -30,7 +30,11 @@ class Session {
 class Category {
     constructor(name){
       this.name = name;
-      let subCategories = [];
+      this.subCategories = [];
+    }
+
+    setName(name){
+        this.name = name;
     }
 
     addSubCategory(subcat){
@@ -38,10 +42,65 @@ class Category {
     }
 }
 
+const activitybtn = document.querySelector('.activity-btn');
+const activityList = document.querySelector('.activity-list');
+const activityAddbtn = document.querySelector('.activity-add');
+
+activitybtn.onclick = () => {
+    activityList.classList.toggle('hidden');
+}
+
+function createButton(){
+    const newbtn = document.createElement('button');
+    const btninput = document.createElement('input');
+    btninput.maxLength = 36;
+    newbtn.appendChild(btninput);
+
+    activityList.prepend(newbtn);
+    btninput.focus();
+
+    btninput.addEventListener("keydown", function(event) {
+        if(event.key === "Enter"){
+            btninput.blur();
+        }
+    });
+
+    btninput.addEventListener("blur", function () {
+        finalizeButton(btninput.value);
+    });
+}
+
+function finalizeButton(categoryName){
+    if(!categoryName){
+        categoryName = 'Unnamed Category';
+    }
+
+    const newCategory = new Category(categoryName);
+    
+    if(!categoryData.some(obj => obj.name === categoryName)){
+        categoryData.push(newCategory);
+        const newbtn = activityList.firstChild;
+        
+        newbtn.removeChild(newbtn.lastChild);
+        newbtn.textContent = categoryName;
+
+    } else {
+        const btninput = activityList.firstChild.querySelector('input');
+        btninput.value = btninput.value + " (1)";
+        btninput.focus();
+    }
+}
+
+activityAddbtn.onclick = () => {
+    createButton();
+}
+
 let sessionData = [];
+let categoryData = [];
+let catUnsorted = new Category("Unsorted");
 let newSession = new Session();
 
-startbtn = document.querySelector('.start-btn');
+const startbtn = document.querySelector('.start-btn');
 
 startbtn.onclick = () => {
     if(newSession.endTime || !newSession.startTime){
@@ -57,12 +116,12 @@ startbtn.onclick = () => {
 function startTimer(){
     newSession = new Session();
 
-    newSession.setStartTime(new Date());
-    newSession.setEndTime(undefined);
+    newSession.startTime= new Date();
+    newSession.endTime = undefined;
 }
 
 function stopTimer(){
-    newSession.setEndTime(new Date());
+    newSession.endTime = new Date();
     sessionData.push(newSession);
 
    // updateDrive(sessionData);   
@@ -93,6 +152,17 @@ function updateDrive(newData){
     });
 }
 
+const accountbtn = document.querySelector('.account-btn');
+const accountText = document.querySelector('.account-text');
+
+accountbtn.onclick = () => {
+    if(!accessToken){
+        authenticateUser();
+    } else {
+        // maybe add settings page or log out or something
+    }
+}
+
 
 // google api stuff below
 let accessToken;
@@ -105,7 +175,8 @@ function initializeGapiClient() {
         scope: 'https://www.googleapis.com/auth/drive.file',
         callback: (tokenResponse) => {
             console.log("User signed in:", tokenResponse);
-            accessToken = tokenResponse.access_token;    
+            accessToken = tokenResponse.access_token;  
+            accountText.textContent = "Logged in"; // account button changes status  
         }
     });
 

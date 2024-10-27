@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://kit.fontawesome.com/7036043621.js" crossorigin="anonymous"></script>
@@ -29,6 +29,10 @@
                 <i class="fa-solid fa-angle-down"></i>
                 Select Activity
             </button>
+
+            <div class="activity-list hidden">
+                <button class="activity-add">+ Add Activity</button>
+            </div>
         </div>
         <div class="extra">
             <button class="calendar-btn">
@@ -41,7 +45,7 @@
         <div class="account">
             <button class="account-btn">
                 <i class="fa-solid fa-user"></i>
-                Mark Love
+                <div class="account-text">Log In</div>
             </button>
         </div>
     <script src="script.js"></script>
