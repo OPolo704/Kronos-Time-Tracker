@@ -76,6 +76,10 @@
     margin-left: 15px;
   }
 
+  .fa-square {
+    font-size: 90px;
+  }
+
   .activity {
     display: flex;
     width: 100%;

@@ -121,11 +121,14 @@ let newSession = new Session();
 const startbtn = document.querySelector('.start-btn');
 
 startbtn.onclick = () => {
+    icon = startbtn.querySelector('i');
     if(newSession.endTime || !newSession.startTime){
         startTimer();
+        icon.className = "fa-solid fa-square";
         console.log('starting timer yay');
     } else {
         stopTimer();
+        icon.className = "fa-solid fa-play";
         console.log('ending timer yay');
         console.log('duration length has been ' + newSession.getDuration() + ' ms');
     }
