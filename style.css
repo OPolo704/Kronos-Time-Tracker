@@ -1,174 +1,178 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  html {
-    font-family: "Kantumruy Pro", sans-serif;
-    font-size: 16px;
-    color: #929191;
-  }
+html {
+  font-family: "Kantumruy Pro", sans-serif;
+  font-size: 16px;
+  color: #929191;
+}
 
-  .hidden {
-    display: none !important;
-  }
+.hidden {
+  display: none !important;
+}
 
-  body {
-    background-color: #F5F5F5;
-  }
+body {
+  background-color: #f5f5f5;
+}
 
-  input {
-    color: #929191;
-    background-color: #D9D9D9;
-    border: none;
-    outline: none;
-    width: 85%;
-    text-align: center;
-  }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-  button {
-    font-family: "Kantumruy Pro", sans-serif;
-    color: #929191;
-    background-color: #D9D9D9;
-    border: solid 3px #929191;
-    border-radius: 11px;
-    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
-  }
+input {
+  color: #929191;
+  background-color: #d9d9d9;
+  border: none;
+  outline: none;
+  width: 85%;
+  text-align: center;
+}
 
-  button:hover {
-    cursor: pointer;
-  }
-  
-  .info {
-    display: flex;
-    margin-top: 40px;
-    width: 100%;
-    height: auto;
-    justify-content: right;
-  }
+button {
+  font-family: "Kantumruy Pro", sans-serif;
+  color: #929191;
+  background-color: #d9d9d9;
+  border: solid 3px #929191;
+  border-radius: 11px;
+  box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
+}
 
-  .info-btn {
-    font-size: 36px;
-    margin-right: 30px;
-  }
+button:hover {
+  cursor: pointer;
+}
 
-  .start {
-    display: flex;
-    width: 100%;
-    height: auto;
-    justify-content: center;
-    margin-top: 45px;
-  }
+.info {
+  display: flex;
+  margin-top: 40px;
+  width: 100%;
+  height: auto;
+  justify-content: right;
+}
 
-  .start-btn {
-    background-color: #AC2B2B;
-    border-radius: 100%;
-    height: 237px;
-    width: 237px;
-    border: none;
-    color: #FFFFFF;
-    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  }
+.info-btn {
+  font-size: 36px;
+  margin-right: 30px;
+}
 
-  .fa-play {
-    font-size: 106px;
-    margin-left: 15px;
-  }
+.start {
+  display: flex;
+  width: 100%;
+  height: auto;
+  justify-content: center;
+  margin-top: 45px;
+}
 
-  .fa-square {
-    font-size: 90px;
-  }
+.start-btn {
+  background-color: #ac2b2b;
+  border-radius: 100%;
+  height: 237px;
+  width: 237px;
+  border: none;
+  color: #ffffff;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
 
-  .activity {
-    display: flex;
-    width: 100%;
-    height: 49px;
-    margin-top: 73px;
-    justify-content: center;
-    position: relative;
-  }
+.fa-play {
+  font-size: 106px;
+  margin-left: 15px;
+}
 
-  .activity-btn {
-    width: 265px;
-    font-size: 24px;
-  }
+.fa-square {
+  font-size: 90px;
+}
 
-  .activity-list {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    z-index: 10;
-    top: 55px;
-    width: 265px;
-    height: 275px;
-    background-color: #D9D9D9;
-    border: solid 3px #929191;
-    border-radius: 11px;
-    overflow-y: auto;
-  }
+.activity {
+  display: flex;
+  width: 100%;
+  height: 49px;
+  margin-top: 73px;
+  justify-content: center;
+  position: relative;
+}
 
-  .activity-list button {
-    flex-shrink: 0;
-    border-radius: 0px;
-    box-shadow: none;
-    height: 50px;
-    border: none;
-    border-bottom: solid 3px #929191;
-  }
+.activity-btn {
+  width: 265px;
+  font-size: 24px;
+}
 
-  .fa-angle-down {
-    margin-right: 15px;
-  }
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 10;
+  top: 55px;
+  width: 265px;
+  height: 275px;
+  background-color: #d9d9d9;
+  border: solid 3px #929191;
+  border-radius: 11px;
+  overflow-y: auto;
+}
 
-  .extra {
-    display: flex;
-    width: 100%;
-    height: 82px;
-    justify-content: center;
-    margin-top: 61px;
-  }
+.activity-list button {
+  flex-shrink: 0;
+  border-radius: 0px;
+  box-shadow: none;
+  height: 50px;
+  border: none;
+  border-bottom: solid 3px #929191;
+}
 
-  .calendar-btn {
-    width: 82px;
-    margin-right: 92px;
-  }
+.fa-angle-down {
+  margin-right: 15px;
+}
 
-  .fa-calendar-days {
-    font-size: 42px;
-  }
+.extra {
+  display: flex;
+  width: 100%;
+  height: 82px;
+  justify-content: center;
+  margin-top: 61px;
+}
 
-  .stats-btn {
-    width: 82px;
-  }
+.calendar-btn {
+  width: 82px;
+  margin-right: 92px;
+}
 
-  .fa-chart-simple {
-    font-size: 42px;
-  }
+.fa-calendar-days {
+  font-size: 42px;
+}
 
-  .account {
-    display: grid;
-    width: 100%;
-    height: 55px;
-    justify-content: center;
-    margin-top: 107px;
-  }
+.stats-btn {
+  width: 82px;
+}
 
-  .account-btn {
-    width: 296px;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    font-size: 30px;
-  }
+.fa-chart-simple {
+  font-size: 42px;
+}
 
-  .fa-user {
-    font-size: 28px;
-    margin-left: 10px;
-  }
+.account {
+  display: grid;
+  width: 100%;
+  height: 55px;
+  justify-content: center;
+  margin-top: 107px;
+}
 
-  .account-text {
-    flex-grow: 1;
-    text-align: center;
-  }
+.account-btn {
+  width: 296px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  font-size: 30px;
+}
 
+.fa-user {
+  font-size: 28px;
+  margin-left: 10px;
+}
+
+.account-text {
+  flex-grow: 1;
+  text-align: center;
+}
