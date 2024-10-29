@@ -105,6 +105,8 @@ function activitySelect(category) {
   activity = categoryData.find((obj) => obj.name === category);
 
   selectedActivity = activity;
+  activitybtn.textContent = selectedActivity.name;
+  activityList.classList.add("hidden");
 }
 
 activityAddbtn.onclick = () => {
