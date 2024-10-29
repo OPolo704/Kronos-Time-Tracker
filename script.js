@@ -1,3 +1,4 @@
+// fundamental structural stuff
 class Session {
     constructor() {
         this.name = "Untitled Session";
@@ -42,6 +43,8 @@ class Category {
     }
 }
 
+// activity button, list, and stuff
+
 const activitybtn = document.querySelector('.activity-btn');
 const activityList = document.querySelector('.activity-list');
 const activityAddbtn = document.querySelector('.activity-add');
@@ -53,7 +56,7 @@ activitybtn.onclick = () => {
 function createButton(){
     const newbtn = document.createElement('button');
     const btninput = document.createElement('input');
-    btninput.maxLength = 36;
+    btninput.maxLength = 32;
     newbtn.appendChild(btninput);
 
     activityList.prepend(newbtn);
@@ -77,27 +80,42 @@ function finalizeButton(categoryName){
 
     const newCategory = new Category(categoryName);
     
-    if(!categoryData.some(obj => obj.name === categoryName)){
+    if(!categoryData.some(obj => obj.name === categoryName)){ // if name unique
         categoryData.push(newCategory);
         const newbtn = activityList.firstChild;
+        newbtn.onclick = (event) => {
+            activitySelect(event.target.textContent);
+            console.log(selectedActivity);
+        }
         
         newbtn.removeChild(newbtn.lastChild);
         newbtn.textContent = categoryName;
 
-    } else {
+    } else { // for repeated names
         const btninput = activityList.firstChild.querySelector('input');
-        btninput.value = btninput.value + " (1)";
+        if(btninput.value.length + 4 <= btninput.maxLength){
+            btninput.value = btninput.value + " (1)";
+        }
         btninput.focus();
     }
+}
+
+function activitySelect(category){
+    activity = categoryData.find(obj => obj.name === category);
+
+    selectedActivity = activity;
 }
 
 activityAddbtn.onclick = () => {
     createButton();
 }
 
+// session data and timer button stuff
+
 let sessionData = [];
 let categoryData = [];
 let catUnsorted = new Category("Unsorted");
+let selectedActivity = catUnsorted;
 let newSession = new Session();
 
 const startbtn = document.querySelector('.start-btn');
@@ -118,6 +136,7 @@ function startTimer(){
 
     newSession.startTime= new Date();
     newSession.endTime = undefined;
+    newSession.category = selectedActivity;
 }
 
 function stopTimer(){
