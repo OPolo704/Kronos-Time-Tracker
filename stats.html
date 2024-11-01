@@ -3,9 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script
+      src="https://kit.fontawesome.com/7036043621.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="/images/Kronos Time Tracker logo png.png"
+    />
+    <title>Kronos Time Tracker | Statistics</title>
   </head>
   <body>
-    <h1>HELLO</h1>
+    <div class="stat-1">
+      <button class="pie-chart"></button>
+    </div>
+
+    <div class="categories">
+      <button class="categories-btn">Manage Categories</button>
+    </div>
+
+    <div class="category-list">
+      <div class="category-list-grid">
+        <div class="category-list-item">
+          <div></div>
+          <div>Coding</div>
+        </div>
+        <div class="category-list-item">
+          <div></div>
+          <div>Productivity</div>
+        </div>
+        <div class="category-list-item">
+          <div></div>
+          <div>Relax</div>
+        </div>
+        <div class="category-list-item">
+          <div></div>
+          <div>Untracked</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="shared.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>

@@ -1,3 +1,5 @@
+/* -- SHARED -- */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -39,11 +41,14 @@ button {
   border: solid 3px #929191;
   border-radius: 11px;
   box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
 }
 
 button:hover {
   cursor: pointer;
 }
+
+/* -- MAIN PAGE -- */
 
 .info {
   display: flex;
@@ -175,4 +180,61 @@ button:hover {
 .account-text {
   flex-grow: 1;
   text-align: center;
+}
+
+/* -- STATS PAGE -- */
+
+.stat-1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.pie-chart {
+  width: 80%;
+  max-width: 400px;
+  aspect-ratio: 1/1;
+  border-radius: 100%;
+}
+
+.categories {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.categories-btn {
+  height: 30px;
+  width: 65%;
+  max-width: 325px;
+  font-size: 1.2rem;
+}
+
+.category-list {
+  padding: 20px 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.category-list-grid {
+  width: 100%;
+  max-width: 400px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  justify-content: center;
+}
+
+.category-list-item {
+  padding: 15px 10px;
+  display: flex;
+}
+
+.category-list-item > :first-child {
+  margin-right: 20px;
+  height: 100%;
+  aspect-ratio: 1/1;
+  background-color: #929191;
 }
