@@ -1,7 +1,9 @@
-main
+MAIN
 last used category moves to top
+ACCOUNT POP UP
+log out & sync buttons
 
-stats
+STATS
 chart.js
 add presets for stat viewing
 when click on slice of pie chart shows percentage as well as total time
