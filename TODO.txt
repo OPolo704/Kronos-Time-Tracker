@@ -4,6 +4,7 @@ ACCOUNT POP UP
 log out & sync buttons
 
 STATS
+category list follows category manager order
 chart.js
 add presets for stat viewing
 when click on slice of pie chart shows percentage as well as total time
