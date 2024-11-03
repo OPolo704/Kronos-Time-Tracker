@@ -7,3 +7,6 @@ STATS
 chart.js
 add presets for stat viewing
 when click on slice of pie chart shows percentage as well as total time
+CATEGORY MANAGER
+hide all button
+smooth scroll up animation when opening and closing
