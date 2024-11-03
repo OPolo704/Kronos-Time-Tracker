@@ -8,13 +8,17 @@ activitybtn.onclick = () => {
   activityList.classList.toggle("hidden");
 };
 
+activityAddbtn.onclick = () => {
+  createButton();
+};
+
 function createButton() {
   const newbtn = document.createElement("button");
   const btninput = document.createElement("input");
   btninput.maxLength = 32;
   newbtn.appendChild(btninput);
 
-  activityList.prepend(newbtn);
+  activityList.insertBefore(newbtn, activityAddbtn);
   btninput.focus();
 
   btninput.addEventListener("keydown", function (event) {
@@ -24,11 +28,12 @@ function createButton() {
   });
 
   btninput.addEventListener("blur", function () {
-    finalizeButton(btninput.value);
+    finalizeButton(newbtn);
   });
 }
 
-function finalizeButton(categoryName) {
+function finalizeButton(newbtn) {
+  categoryName = newbtn.querySelector("input").value;
   if (!categoryName) {
     categoryName = "Unnamed Category";
   }
@@ -38,7 +43,6 @@ function finalizeButton(categoryName) {
   if (!categoryData.some((obj) => obj.name === categoryName)) {
     // if name unique
     categoryData.push(newCategory);
-    const newbtn = activityList.firstChild;
     newbtn.onclick = (event) => {
       activitySelect(event.target.textContent);
       console.log(selectedActivity);
@@ -48,7 +52,7 @@ function finalizeButton(categoryName) {
     newbtn.textContent = categoryName;
   } else {
     // for repeated names
-    const btninput = activityList.firstChild.querySelector("input");
+    const btninput = newbtn.querySelector("input");
     if (categoryName.length + 4 <= btninput.maxLength) {
       btninput.value = categoryName + " (1)";
     }
@@ -71,10 +75,6 @@ function activitySelect(category) {
 
   activityList.classList.add("hidden");
 }
-
-activityAddbtn.onclick = () => {
-  createButton();
-};
 
 // session data and timer button stuff
 
