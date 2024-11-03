@@ -1,6 +1,6 @@
 categoryData = JSON.parse(sessionStorage.getItem("categoryData"));
 sessionData = JSON.parse(sessionStorage.getItem("sessionData"));
-let selectedCategories = [];
+let viewedCategories = [...categoryData];
 
 // CATEGORY MANAGER
 
@@ -18,12 +18,18 @@ function createCategoryManagerList() {
 
     const optionsDiv = document.createElement("div");
     optionsDiv.classList.add("category-options");
+
     const eye = document.createElement("i");
     eye.classList.add("fa-solid", "fa-eye");
+    eye.onclick = (event) => {
+      toggleViewCategory(event.target);
+    };
     optionsDiv.appendChild(eye);
+
     const pencil = document.createElement("i");
     optionsDiv.appendChild(pencil);
     pencil.classList.add("fa-solid", "fa-pen-to-square");
+
     const trash = document.createElement("i");
     trash.classList.add("fa-solid", "fa-trash");
     optionsDiv.appendChild(trash);
@@ -32,6 +38,19 @@ function createCategoryManagerList() {
 
     categoryManagerList.appendChild(catElement);
   });
+}
+
+function toggleViewCategory(button) {
+  const category = button.parentElement.parentElement.textContent;
+
+  const index = viewedCategories.findIndex((obj) => obj.name === category);
+  if (index !== -1) {
+    button.classList.replace("fa-eye", "fa-eye-slash");
+    viewedCategories.splice(index, 1);
+  } else {
+    button.classList.replace("fa-eye-slash", "fa-eye");
+    viewedCategories.push(categoryData.find((obj) => obj.name === category));
+  }
 }
 
 function categoryManagerToggle() {
