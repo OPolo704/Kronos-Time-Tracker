@@ -35,38 +35,15 @@
     </div>
 
     <div class="category-list">
-      <div class="category-list-grid">
-        <div class="category-list-item">
-          <div></div>
-          <div>Coding</div>
-        </div>
-        <div class="category-list-item">
-          <div></div>
-          <div>Productivity</div>
-        </div>
-        <div class="category-list-item">
-          <div></div>
-          <div>Relax</div>
-        </div>
-        <div class="category-list-item">
-          <div></div>
-          <div>Untracked</div>
-        </div>
-      </div>
+      <div class="category-list-grid"></div>
     </div>
 
     <div class="category-manager hidden">
-      <i onclick="categoryManagerToggle()" class="fa-solid fa-xmark"></i>
-      <ul class="category-manager-list">
-        <li class="category-manager-element">
-          Test
-          <div class="category-options">
-            <i class="fa-solid fa-eye"></i>
-            <i class="fa-solid fa-pen-to-square"></i>
-            <i class="fa-solid fa-trash"></i>
-          </div>
-        </li>
-      </ul>
+      <i
+        onclick="printCategories();categoryManagerToggle()"
+        class="fa-solid fa-xmark"
+      ></i>
+      <ul class="category-manager-list"></ul>
     </div>
     <script src="shared.js"></script>
     <script src="stats.js"></script>

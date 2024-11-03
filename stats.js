@@ -2,12 +2,32 @@ categoryData = JSON.parse(sessionStorage.getItem("categoryData"));
 sessionData = JSON.parse(sessionStorage.getItem("sessionData"));
 let viewedCategories = [...categoryData];
 
+// STAT PAGE
+const categoryListGrid = document.querySelector(".category-list-grid");
+
+function printCategories() {
+  categoryListGrid.innerHTML = "";
+
+  viewedCategories.forEach((cat) => {
+    const listItem = document.createElement("div");
+    listItem.classList.add("category-list-item");
+    listItem.appendChild(document.createElement("div"));
+
+    const categoryText = document.createElement("div");
+    categoryText.textContent = cat.name;
+    listItem.appendChild(categoryText);
+
+    categoryListGrid.appendChild(listItem);
+  });
+}
+
 // CATEGORY MANAGER
 
 const categoriesbtn = document.querySelector(".categories-btn");
 const categoryManager = document.querySelector(".category-manager");
 const categoryManagerList = document.querySelector(".category-manager-list");
 
+printCategories();
 createCategoryManagerList();
 
 function createCategoryManagerList() {
