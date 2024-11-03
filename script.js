@@ -102,7 +102,6 @@ function startTimer() {
 
   newSession.startTime = new Date();
   newSession.endTime = undefined;
-  newSession.category = selectedActivity;
 }
 
 function stopTimer() {
@@ -124,3 +123,8 @@ accountbtn.onclick = () => {
     // maybe add settings page or log out or something
   }
 };
+
+function uploadSessionStorage() {
+  sessionStorage.setItem("sessionData", JSON.stringify(sessionData));
+  sessionStorage.setItem("categoryData", JSON.stringify(categoryData));
+}
