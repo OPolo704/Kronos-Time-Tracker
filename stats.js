@@ -1,5 +1,6 @@
 categoryData = JSON.parse(sessionStorage.getItem("categoryData"));
 sessionData = JSON.parse(sessionStorage.getItem("sessionData"));
+let selectedCategories = [];
 
 // CATEGORY MANAGER
 
@@ -13,14 +14,31 @@ function createCategoryManagerList() {
   categoryData.forEach((cat) => {
     const catElement = document.createElement("li");
     catElement.textContent = cat.name;
+    catElement.classList.add("category-manager-element");
+
+    const optionsDiv = document.createElement("div");
+    optionsDiv.classList.add("category-options");
+    const eye = document.createElement("i");
+    eye.classList.add("fa-solid", "fa-eye");
+    optionsDiv.appendChild(eye);
+    const pencil = document.createElement("i");
+    optionsDiv.appendChild(pencil);
+    pencil.classList.add("fa-solid", "fa-pen-to-square");
+    const trash = document.createElement("i");
+    trash.classList.add("fa-solid", "fa-trash");
+    optionsDiv.appendChild(trash);
+
+    catElement.appendChild(optionsDiv);
 
     categoryManagerList.appendChild(catElement);
   });
 }
 
-categoriesbtn.onclick = () => {
-  categoryManager.classList.remove("hidden");
-};
+function categoryManagerToggle() {
+  categoryManager.classList.toggle("hidden");
+}
+
+categoriesbtn.onclick = categoryManagerToggle;
 
 const toggler = document.querySelectorAll(".caret");
 

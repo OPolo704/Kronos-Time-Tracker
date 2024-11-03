@@ -257,6 +257,11 @@ ul {
   padding-top: 15px;
 }
 
+.category-manager > .fa-xmark {
+  margin-left: 13px;
+  font-size: 1.5rem;
+}
+
 .category-manager > span,
 li {
   font-size: 1.8rem;
@@ -265,6 +270,28 @@ li {
 .category-manager li {
   margin: 20px 0px;
   margin-left: 30px;
+}
+
+.category-manager-element {
+  display: flex;
+  justify-content: space-between;
+}
+
+.category-options {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-right: 40px;
+}
+
+.category-options > i {
+  font-size: 1.2rem;
+  opacity: 0.65;
+  margin-left: 10px;
+}
+
+.category-options > i:hover {
+  opacity: 0.9;
 }
 
 .caret {
