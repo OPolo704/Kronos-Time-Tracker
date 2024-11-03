@@ -107,6 +107,8 @@ function startTimer() {
 
 function stopTimer() {
   newSession.endTime = new Date();
+  newSession.category = selectedActivity;
+
   sessionData.push(newSession);
 
   // updateDrive(sessionData);
