@@ -109,9 +109,9 @@ function stopTimer() {
   newSession.category = selectedActivity;
 
   sessionData.push(newSession);
-
-  // updateDrive(sessionData);
 }
+
+//account button
 
 const accountbtn = document.querySelector(".account-btn");
 const accountText = document.querySelector(".account-text");
@@ -120,9 +120,17 @@ accountbtn.onclick = () => {
   if (!accessToken) {
     authenticateUser();
   } else {
-    // maybe add settings page or log out or something
+    toggleAccountMenu();
   }
 };
+
+// ACCOUNT MENU
+
+const accountMenuPage = document.querySelector(".account-menu-page");
+
+function toggleAccountMenu() {
+  accountMenuPage.classList.toggle("hidden");
+}
 
 function uploadSessionStorage() {
   sessionStorage.setItem("sessionData", JSON.stringify(sessionData));

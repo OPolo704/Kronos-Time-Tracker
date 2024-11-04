@@ -187,6 +187,79 @@ ul {
   text-align: center;
 }
 
+/* -- ACCOUNT MENU -- */
+
+.account-menu-page {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0px 35px;
+}
+
+.account-menu {
+  width: 100%;
+  font-family: "Kantumruy Pro", sans-serif;
+  font-size: 32px;
+  color: #929191;
+  background-color: #d9d9d9;
+  border: solid 3px #929191;
+  border-radius: 11px;
+  overflow: hidden;
+  user-select: none;
+  padding-bottom: 50px;
+}
+
+.account-menu-title {
+  margin-top: 10px;
+  padding: 0px 15px;
+  display: flex;
+  align-items: center;
+}
+
+.account-menu-title img {
+  width: 52px;
+  -webkit-filter: drop-shadow(5px 5px 5px #222);
+  filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.25));
+}
+
+.account-menu-title span {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.account-menu-options {
+  padding: 0px 31px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+  font-size: 20px;
+}
+
+.account-menu-options button {
+  height: 98px;
+  width: 98px;
+  margin-bottom: 15px;
+}
+
+.account-menu-options i {
+  font-size: 60px;
+}
+
+.sync,
+.log-out {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* -- STATS PAGE -- */
 
 .stat-1 {
