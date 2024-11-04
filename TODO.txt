@@ -3,7 +3,7 @@ upload everything to localstorage not just sessionstorage since syncing is manua
 MAIN
 last used category moves to top
 ACCOUNT POP UP
-sync functionality --> sync animation
+sync functionality
 log out functionality
 
 STATS
@@ -11,6 +11,12 @@ category list follows category manager order
 chart.js
 add presets for stat viewing
 when click on slice of pie chart shows percentage as well as total time
+data export options
 CATEGORY MANAGER
 hide all button
-smooth scroll up animation when opening and closing
+
+
+general nice additions
+ensure hover functionality on everything
+sync animation on sync button
+category manager smooth scroll up animation when opening and closing, maybe even slide down to close
