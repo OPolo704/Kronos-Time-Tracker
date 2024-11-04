@@ -1,7 +1,10 @@
+upload everything to localstorage not just sessionstorage since syncing is manual now
+
 MAIN
 last used category moves to top
 ACCOUNT POP UP
-log out & sync buttons
+sync functionality --> sync animation
+log out functionality
 
 STATS
 category list follows category manager order
