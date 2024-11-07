@@ -104,6 +104,13 @@ function stopTimer() {
   sessionData.push(newSession);
 }
 
+// redirect buttons
+
+function statsRedirect() {
+  uploadSessionStorage();
+  window.location.href = "stats.html";
+}
+
 //account button
 
 const accountbtn = document.querySelector(".account-btn");
