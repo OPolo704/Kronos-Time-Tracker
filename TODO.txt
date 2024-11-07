@@ -8,6 +8,7 @@ log out functionality
 
 STATS
 category list follows category manager order
+ellipsis on long text that overflows like WWWWWWWWWWWw
 chart.js
 add presets for stat viewing
 when click on slice of pie chart shows percentage as well as total time

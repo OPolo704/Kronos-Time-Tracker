@@ -65,13 +65,6 @@ function activitySelect(category) {
 
   selectedActivity = activity;
   activitybtn.textContent = selectedActivity.name;
-  let n = 1; // this and below is to maintain the activity name's length suitable for the width of the button
-  while (activitybtn.scrollWidth > activitybtn.clientWidth) {
-    activitybtn.textContent =
-      selectedActivity.name.slice(0, selectedActivity.name.length - 1 - n) +
-      "...";
-    n++;
-  }
 
   activityList.classList.add("hidden");
 }
