@@ -1,6 +1,7 @@
 upload everything to localstorage not just sessionstorage since syncing is manual now
 
 MAIN
+get rid of highlight when clicking buttons
 last used category moves to top
 ACCOUNT POP UP
 sync functionality
