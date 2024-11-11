@@ -33,7 +33,9 @@ createCategoryManagerList();
 function createCategoryManagerList() {
   categoryData.forEach((cat) => {
     const catElement = document.createElement("li");
-    catElement.textContent = cat.name;
+    const catElementName = document.createElement("span");
+    catElementName.textContent = cat.name;
+    catElement.appendChild(catElementName);
     catElement.classList.add("category-manager-element");
 
     const optionsDiv = document.createElement("div");
@@ -42,13 +44,16 @@ function createCategoryManagerList() {
     const eye = document.createElement("i");
     eye.classList.add("fa-solid", "fa-eye");
     eye.onclick = (event) => {
-      toggleViewCategory(event.target);
+      categoryToggleView(event.target);
     };
     optionsDiv.appendChild(eye);
 
     const pencil = document.createElement("i");
-    optionsDiv.appendChild(pencil);
     pencil.classList.add("fa-solid", "fa-pen-to-square");
+    pencil.onclick = (event) => {
+      categoryRename(event.target);
+    };
+    optionsDiv.appendChild(pencil);
 
     const trash = document.createElement("i");
     trash.classList.add("fa-solid", "fa-trash");
@@ -60,7 +65,7 @@ function createCategoryManagerList() {
   });
 }
 
-function toggleViewCategory(button) {
+function categoryToggleView(button) {
   const category = button.parentElement.parentElement.textContent;
 
   const index = viewedCategories.findIndex((obj) => obj.name === category);
@@ -71,6 +76,40 @@ function toggleViewCategory(button) {
     button.classList.replace("fa-eye-slash", "fa-eye");
     viewedCategories.push(categoryData.find((obj) => obj.name === category));
   }
+}
+
+function categoryRename(button) {
+  const categoryElement = button.parentElement.parentElement;
+  const category = button.parentElement.parentElement.textContent;
+  categoryElement.querySelector("span").textContent = "";
+
+  const btninput = document.createElement("input");
+  btninput.maxLength = 32;
+  categoryElement.prepend(btninput);
+  btninput.focus();
+
+  btninput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      btninput.blur();
+    }
+  });
+
+  btninput.addEventListener("blur", function () {
+    let newCategory;
+    if (btninput.value === "") {
+      newCategory = category;
+    } else {
+      newCategory = btninput.value;
+    }
+    categoryElement.removeChild(btninput);
+
+    const categoryElementName = document.createElement("span");
+    categoryElementName.textContent = newCategory;
+    categoryElement.prepend(categoryElementName);
+
+    const activity = categoryData.find((obj) => obj.name === category);
+    activity.name = newCategory;
+  });
 }
 
 function categoryManagerToggle() {

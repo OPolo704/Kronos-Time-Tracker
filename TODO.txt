@@ -1,4 +1,5 @@
 upload everything to localstorage not just sessionstorage since syncing is manual now
+convert into an id system for categories and change session object's category property to point to the id
 
 MAIN
 get rid of highlight when clicking buttons
@@ -7,7 +8,7 @@ ACCOUNT POP UP
 sync functionality
 log out functionality
 
-STATS
+STATS 
 category list follows category manager order
 ellipsis on long text that overflows like WWWWWWWWWWWw
 chart.js
