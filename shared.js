@@ -4,7 +4,6 @@ class Session {
     this.name = "Untitled Session";
     this.startTime;
     this.endTime;
-    this.category = catUnsorted;
   }
 
   setName(name) {
@@ -12,14 +11,6 @@ class Session {
       this.name = name;
     } else {
       console.log("What you have entered is not a valid name."); //implement UI change
-    }
-  }
-
-  setCategory(category) {
-    if (category) {
-      this.category = category;
-    } else {
-      console.log("category does not exist"); // implement UI change
     }
   }
 
@@ -33,6 +24,7 @@ class Category {
     this.name = name;
     this.subCategories = [];
     this.id = id;
+    sessionData[this.id] = [];
     id++;
   }
 
@@ -47,8 +39,7 @@ class Category {
 
 let id = 1;
 let categoryData = JSON.parse(sessionStorage.getItem("categoryData")) || [];
-let sessionData = JSON.parse(sessionStorage.getItem("sessionData")) || [];
-let catUnsorted = new Category("Unsorted");
+let sessionData = JSON.parse(sessionStorage.getItem("sessionData")) || [[]];
 
 function uploadSessionStorage() {
   sessionStorage.setItem("sessionData", JSON.stringify(sessionData));

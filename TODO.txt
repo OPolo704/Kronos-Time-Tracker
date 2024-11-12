@@ -18,6 +18,7 @@ when click on slice of pie chart shows percentage as well as total time
 data export options
 CATEGORY MANAGER
 hide all button
+are you sure you want to delete category and all the sessions that are part of it? message
 
 
 general nice additions

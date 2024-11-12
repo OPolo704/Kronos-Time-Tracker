@@ -85,7 +85,7 @@ function activitySelect(category) {
 
 // session data and timer button stuff
 
-let selectedActivity = catUnsorted;
+let selectedActivity = null;
 let newSession = new Session();
 
 const startbtn = document.querySelector(".start-btn");
@@ -113,9 +113,14 @@ function startTimer() {
 
 function stopTimer() {
   newSession.endTime = new Date();
-  newSession.category = selectedActivity;
+  let newSessionID;
+  if (selectedActivity === null) {
+    newSessionID = 0;
+  } else {
+    newSessionID = selectedActivity.id;
+  }
 
-  sessionData.push(newSession);
+  sessionData[newSessionID].push(newSession);
 }
 
 //account button
