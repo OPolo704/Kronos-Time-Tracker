@@ -43,9 +43,26 @@ class Category {
   }
 }
 
-let sessionData = [];
-let categoryData = [];
+let categoryData = JSON.parse(sessionStorage.getItem("categoryData")) || [];
+let sessionData = JSON.parse(sessionStorage.getItem("sessionData")) || [];
 let catUnsorted = new Category("Unsorted");
+
+function uploadSessionStorage() {
+  sessionStorage.setItem("sessionData", JSON.stringify(sessionData));
+  sessionStorage.setItem("categoryData", JSON.stringify(categoryData));
+}
+
+// redirect buttons
+
+function mainRedirect() {
+  uploadSessionStorage();
+  window.location.href = "index.html";
+}
+
+function statsRedirect() {
+  uploadSessionStorage();
+  window.location.href = "stats.html";
+}
 
 // google api stuff below
 let accessToken;
