@@ -4,6 +4,19 @@ const activitybtn = document.querySelector(".activity-btn");
 const activityList = document.querySelector(".activity-list");
 const activityAddbtn = document.querySelector(".activity-add");
 
+if (categoryData) {
+  categoryData.forEach((cat) => {
+    const newbtn = document.createElement("button");
+    newbtn.textContent = cat.name;
+    newbtn.onclick = (event) => {
+      activitySelect(event.target.textContent);
+      console.log(selectedActivity);
+    };
+
+    activityList.prepend(newbtn);
+  });
+}
+
 activitybtn.onclick = () => {
   activityList.classList.toggle("hidden");
 };
