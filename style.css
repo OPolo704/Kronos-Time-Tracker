@@ -26,6 +26,7 @@ a {
 }
 
 input {
+  font-family: "Kantumruy Pro", sans-serif;
   color: #929191;
   background-color: #d9d9d9;
   border: none;
@@ -351,6 +352,13 @@ li {
 .category-manager-element {
   display: flex;
   justify-content: left;
+}
+
+.category-manager-element input {
+  height: 34px;
+  background-color: #fafafa;
+  text-align: left;
+  font-size: 1.8rem;
 }
 
 .category-options {
