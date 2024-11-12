@@ -22,44 +22,52 @@ function printCategories() {
 // CATEGORY MANAGER
 
 const categoriesbtn = document.querySelector(".categories-btn");
+const categoryAddbtn = document.querySelector(".category-add-btn");
 const categoryManager = document.querySelector(".category-manager");
 const categoryManagerList = document.querySelector(".category-manager-list");
 
 printCategories();
 createCategoryManagerList();
 
+function createCategoryManagerElement(cat) {
+  const catElement = document.createElement("li");
+  const catElementName = document.createElement("span");
+  catElementName.textContent = cat.name;
+  catElement.appendChild(catElementName);
+  catElement.classList.add("category-manager-element");
+
+  const optionsDiv = document.createElement("div");
+  optionsDiv.classList.add("category-options");
+
+  const eye = document.createElement("i");
+  eye.classList.add("fa-solid", "fa-eye");
+  eye.onclick = (event) => {
+    categoryToggleView(event.target);
+  };
+  optionsDiv.appendChild(eye);
+
+  const pencil = document.createElement("i");
+  pencil.classList.add("fa-solid", "fa-pen-to-square");
+  pencil.onclick = (event) => {
+    categoryRename(event.target);
+  };
+  optionsDiv.appendChild(pencil);
+
+  const trash = document.createElement("i");
+  trash.classList.add("fa-solid", "fa-trash");
+  optionsDiv.appendChild(trash);
+
+  catElement.appendChild(optionsDiv);
+
+  categoryManagerList.insertBefore(
+    catElement,
+    document.querySelector(".category-add-btn")
+  );
+}
+
 function createCategoryManagerList() {
   categoryData.forEach((cat) => {
-    const catElement = document.createElement("li");
-    const catElementName = document.createElement("span");
-    catElementName.textContent = cat.name;
-    catElement.appendChild(catElementName);
-    catElement.classList.add("category-manager-element");
-
-    const optionsDiv = document.createElement("div");
-    optionsDiv.classList.add("category-options");
-
-    const eye = document.createElement("i");
-    eye.classList.add("fa-solid", "fa-eye");
-    eye.onclick = (event) => {
-      categoryToggleView(event.target);
-    };
-    optionsDiv.appendChild(eye);
-
-    const pencil = document.createElement("i");
-    pencil.classList.add("fa-solid", "fa-pen-to-square");
-    pencil.onclick = (event) => {
-      categoryRename(event.target);
-    };
-    optionsDiv.appendChild(pencil);
-
-    const trash = document.createElement("i");
-    trash.classList.add("fa-solid", "fa-trash");
-    optionsDiv.appendChild(trash);
-
-    catElement.appendChild(optionsDiv);
-
-    categoryManagerList.appendChild(catElement);
+    createCategoryManagerElement(cat);
   });
 }
 
