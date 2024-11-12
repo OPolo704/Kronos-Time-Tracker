@@ -32,6 +32,8 @@ class Category {
   constructor(name) {
     this.name = name;
     this.subCategories = [];
+    this.id = id;
+    id++;
   }
 
   setName(name) {
@@ -43,6 +45,7 @@ class Category {
   }
 }
 
+let id = 1;
 let categoryData = JSON.parse(sessionStorage.getItem("categoryData")) || [];
 let sessionData = JSON.parse(sessionStorage.getItem("sessionData")) || [];
 let catUnsorted = new Category("Unsorted");
@@ -50,6 +53,7 @@ let catUnsorted = new Category("Unsorted");
 function uploadSessionStorage() {
   sessionStorage.setItem("sessionData", JSON.stringify(sessionData));
   sessionStorage.setItem("categoryData", JSON.stringify(categoryData));
+  sessionStorage.setItem("id", JSON.stringify(id));
 }
 
 // redirect buttons
