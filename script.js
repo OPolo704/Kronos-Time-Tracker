@@ -2,8 +2,9 @@
 
 const activitybtn = document.querySelector(".activity-btn");
 const activityList = document.querySelector(".activity-list");
-const activityAddbtn = document.querySelector(".activity-add");
+const activityAddbtn = document.querySelector(".activity-add-btn");
 
+// print activity list
 if (categoryData) {
   categoryData.forEach((cat) => {
     const newbtn = document.createElement("button");
