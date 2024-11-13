@@ -40,11 +40,15 @@ class Category {
 let id = 1;
 let categoryData = JSON.parse(sessionStorage.getItem("categoryData")) || [];
 let sessionData = JSON.parse(sessionStorage.getItem("sessionData")) || [[]];
+let viewedCategories = JSON.parse(
+  sessionStorage.getItem("viewedCategories")
+) || [...categoryData];
 
 function uploadSessionStorage() {
   sessionStorage.setItem("sessionData", JSON.stringify(sessionData));
   sessionStorage.setItem("categoryData", JSON.stringify(categoryData));
   sessionStorage.setItem("id", JSON.stringify(id));
+  sessionStorage.setItem("viewedCategories", JSON.stringify(viewedCategories));
 }
 
 // redirect buttons

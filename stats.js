@@ -1,5 +1,3 @@
-let viewedCategories = [...categoryData];
-
 // STAT PAGE
 const categoryListGrid = document.querySelector(".category-list-grid");
 
