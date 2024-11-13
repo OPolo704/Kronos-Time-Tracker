@@ -1,5 +1,5 @@
 upload everything to localstorage not just sessionstorage since syncing is manual now
-convert into an id system for categories and change session object's category property to point to the id
+add activity boolean yes or no property to categories
 
 MAIN
 position i button absolutely

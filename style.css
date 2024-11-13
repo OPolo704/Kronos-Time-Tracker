@@ -345,6 +345,7 @@ ul {
   height: 100%;
   background-color: #fafafa;
   padding-top: 15px;
+  user-select: none;
 }
 
 .category-manager > .fa-xmark {
@@ -355,6 +356,16 @@ ul {
 .category-manager > span,
 li {
   font-size: 1.8rem;
+}
+
+.category-manager span i {
+  font-size: 1.5rem;
+  margin-left: 10px;
+  opacity: 0.8;
+}
+
+.category-manager span i:hover {
+  cursor: pointer;
 }
 
 .category-manager li {

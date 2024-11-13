@@ -33,6 +33,14 @@ function createCategoryManagerElement(cat) {
   const catElement = document.createElement("li");
   const catElementName = document.createElement("span");
   catElementName.textContent = cat.name;
+
+  const checkbox = document.createElement("i");
+  checkbox.classList.add("fa-regular", "fa-square-check");
+  catElementName.appendChild(checkbox);
+  catElementName.onclick = (event) => {
+    categoryToggleView(event.currentTarget);
+  };
+
   catElement.appendChild(catElementName);
   catElement.classList.add("category-manager-element");
 
@@ -42,7 +50,7 @@ function createCategoryManagerElement(cat) {
   const eye = document.createElement("i");
   eye.classList.add("fa-solid", "fa-eye");
   eye.onclick = (event) => {
-    categoryToggleView(event.target);
+    categoryToggleView(event.target); // change to toggle activity in activity property
   };
   optionsDiv.appendChild(eye);
 
@@ -72,17 +80,32 @@ function createCategoryManagerList() {
 }
 
 function categoryToggleView(button) {
-  const category = button.parentElement.parentElement.textContent;
+  const category = button.textContent;
+  const icon = button.querySelector("i");
 
   const index = viewedCategories.findIndex((obj) => obj.name === category);
   if (index !== -1) {
-    button.classList.replace("fa-eye", "fa-eye-slash");
+    icon.classList.replace("fa-square-check", "fa-square");
     viewedCategories.splice(index, 1);
   } else {
-    button.classList.replace("fa-eye-slash", "fa-eye");
+    icon.classList.replace("fa-square", "fa-square-check");
     viewedCategories.push(categoryData.find((obj) => obj.name === category));
   }
 }
+
+// convert into an activity or category button
+// function categoryToggleView(button) {
+//   const category = button.parentElement.parentElement.textContent;
+
+//   const index = viewedCategories.findIndex((obj) => obj.name === category);
+//   if (index !== -1) {
+//     button.classList.replace("fa-eye", "fa-eye-slash");
+//     viewedCategories.splice(index, 1);
+//   } else {
+//     button.classList.replace("fa-eye-slash", "fa-eye");
+//     viewedCategories.push(categoryData.find((obj) => obj.name === category));
+//   }
+// }
 
 function categoryRename(button) {
   const categoryElement = button.parentElement.parentElement;
