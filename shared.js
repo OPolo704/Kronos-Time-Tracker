@@ -23,6 +23,7 @@ class Category {
   constructor(name) {
     this.name = name;
     this.subCategories = [];
+    this.activity = true;
     this.id = id;
     sessionData[this.id] = [];
     id++;

@@ -7,14 +7,16 @@ const activityAddbtn = document.querySelector(".activity-add-btn");
 // print activity list
 if (categoryData) {
   categoryData.forEach((cat) => {
-    const newbtn = document.createElement("button");
-    newbtn.textContent = cat.name;
-    newbtn.onclick = (event) => {
-      activitySelect(event.target.textContent);
-      console.log(selectedActivity);
-    };
+    if (cat.activity) {
+      const newbtn = document.createElement("button");
+      newbtn.textContent = cat.name;
+      newbtn.onclick = (event) => {
+        activitySelect(event.target.textContent);
+        console.log(selectedActivity);
+      };
 
-    activityList.prepend(newbtn);
+      activityList.prepend(newbtn);
+    }
   });
 }
 

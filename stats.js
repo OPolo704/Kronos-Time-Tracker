@@ -48,7 +48,7 @@ function createCategoryManagerElement(cat) {
   const eye = document.createElement("i");
   eye.classList.add("fa-solid", "fa-eye");
   eye.onclick = (event) => {
-    categoryToggleView(event.target); // change to toggle activity in activity property
+    categoryToggleActivity(event.target);
   };
   optionsDiv.appendChild(eye);
 
@@ -91,19 +91,18 @@ function categoryToggleView(button) {
   }
 }
 
-// convert into an activity or category button
-// function categoryToggleView(button) {
-//   const category = button.parentElement.parentElement.textContent;
+function categoryToggleActivity(button) {
+  const categoryName = button.parentElement.parentElement.textContent;
 
-//   const index = viewedCategories.findIndex((obj) => obj.name === category);
-//   if (index !== -1) {
-//     button.classList.replace("fa-eye", "fa-eye-slash");
-//     viewedCategories.splice(index, 1);
-//   } else {
-//     button.classList.replace("fa-eye-slash", "fa-eye");
-//     viewedCategories.push(categoryData.find((obj) => obj.name === category));
-//   }
-// }
+  const category = viewedCategories.find((obj) => obj.name === categoryName);
+  if (category.activity) {
+    button.classList.replace("fa-eye", "fa-eye-slash");
+    category.activity = false;
+  } else {
+    button.classList.replace("fa-eye-slash", "fa-eye");
+    category.activity = true;
+  }
+}
 
 function categoryRename(button) {
   const categoryElement = button.parentElement.parentElement;
