@@ -94,7 +94,7 @@ function categoryToggleView(button) {
 function categoryToggleActivity(button) {
   const categoryName = button.parentElement.parentElement.textContent;
 
-  const category = viewedCategories.find((obj) => obj.name === categoryName);
+  const category = categoryData.find((obj) => obj.name === categoryName);
   if (category.activity) {
     button.classList.replace("fa-eye", "fa-eye-slash");
     category.activity = false;
