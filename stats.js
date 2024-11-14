@@ -33,7 +33,7 @@ function createCategoryManagerElement(cat) {
   catElementName.textContent = cat.name;
 
   const checkbox = document.createElement("i");
-  checkbox.classList.add("fa-regular", "fa-square-check");
+  checkbox.classList.add("fa-regular", "fa-square");
   catElementName.appendChild(checkbox);
   catElementName.onclick = (event) => {
     categoryToggleView(event.currentTarget);
@@ -133,6 +133,13 @@ function categoryRename(button) {
     const categoryElementName = document.createElement("span");
     categoryElementName.textContent = newCategory;
     categoryElement.prepend(categoryElementName);
+
+    const checkbox = document.createElement("i");
+    checkbox.classList.add("fa-regular", "fa-square-check");
+    categoryElementName.appendChild(checkbox);
+    categoryElementName.onclick = (event) => {
+      categoryToggleView(event.currentTarget);
+    };
 
     const activity = categoryData.find((obj) => obj.name === category);
     activity.name = newCategory;

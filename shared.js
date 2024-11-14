@@ -37,12 +37,11 @@ class Category {
   }
 }
 
-let id = 1;
+let id = JSON.parse(sessionStorage.getItem("id")) || 1;
 let categoryData = JSON.parse(sessionStorage.getItem("categoryData")) || [];
 let sessionData = JSON.parse(sessionStorage.getItem("sessionData")) || [[]];
-let viewedCategories = JSON.parse(
-  sessionStorage.getItem("viewedCategories")
-) || [...categoryData];
+let viewedCategories =
+  JSON.parse(sessionStorage.getItem("viewedCategories")) || [];
 
 function uploadSessionStorage() {
   sessionStorage.setItem("sessionData", JSON.stringify(sessionData));

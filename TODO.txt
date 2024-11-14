@@ -1,5 +1,4 @@
 upload everything to localstorage not just sessionstorage since syncing is manual now
-add activity boolean yes or no property to categories
 
 MAIN
 position i button absolutely
@@ -25,3 +24,15 @@ general nice additions
 ensure hover functionality on everything
 sync animation on sync button
 category manager smooth scroll up animation when opening and closing, maybe even slide down to close
+
+
+CURRENT: change viewedcategories to enabledcategories? or something different
+add activity boolean yes or no property to categories
+make eye button now toggle the activity boolean property
+
+
+block duplicate names cat manager
+
+
+
+idea for future: when selecting activity clear select activity bar and turn it into a search bar the filters options
