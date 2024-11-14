@@ -36,7 +36,11 @@ function createCategoryManagerElement(cat) {
   catElementName.textContent = cat.name;
 
   const checkbox = document.createElement("i");
-  checkbox.classList.add("fa-regular", "fa-square");
+  if (viewedCategories.some((obj) => obj.id === cat.id)) {
+    checkbox.classList.add("fa-regular", "fa-square-check");
+  } else {
+    checkbox.classList.add("fa-regular", "fa-square");
+  }
   catElementName.appendChild(checkbox);
   catElementName.onclick = (event) => {
     categoryToggleView(event.currentTarget);
