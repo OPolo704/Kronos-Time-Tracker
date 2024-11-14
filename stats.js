@@ -1,3 +1,6 @@
+let viewedCategories =
+  JSON.parse(sessionStorage.getItem("viewedCategories")) || [];
+
 // STAT PAGE
 const categoryListGrid = document.querySelector(".category-list-grid");
 
@@ -81,17 +84,27 @@ function createCategoryManagerList() {
   });
 }
 
+function updateViewedCategories() {
+  viewedCategories = [];
+  for (let i = 0; i < categoryManagerList.children.length - 1; i++) {
+    const categoryName = categoryManagerList.children[i].textContent;
+    if (categoryManagerList.children[i].querySelector(".fa-square-check")) {
+      viewedCategories.push(
+        categoryData.find((obj) => obj.name === categoryName)
+      );
+    }
+  }
+
+  sessionStorage.setItem("viewedCategories", JSON.stringify(viewedCategories));
+}
+
 function categoryToggleView(button) {
-  const category = button.textContent;
   const icon = button.querySelector("i");
 
-  const index = viewedCategories.findIndex((obj) => obj.name === category);
-  if (index !== -1) {
+  if (icon.classList.contains("fa-square-check")) {
     icon.classList.replace("fa-square-check", "fa-square");
-    viewedCategories.splice(index, 1);
   } else {
     icon.classList.replace("fa-square", "fa-square-check");
-    viewedCategories.push(categoryData.find((obj) => obj.name === category));
   }
 }
 
