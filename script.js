@@ -15,7 +15,7 @@ if (categoryData) {
         console.log(selectedActivity);
       };
 
-      activityList.prepend(newbtn);
+      activityList.insertBefore(newbtn, activityAddbtn);
     }
   });
 }
