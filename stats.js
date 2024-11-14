@@ -46,7 +46,11 @@ function createCategoryManagerElement(cat) {
   optionsDiv.classList.add("category-options");
 
   const eye = document.createElement("i");
-  eye.classList.add("fa-solid", "fa-eye");
+  if (cat.activity) {
+    eye.classList.add("fa-solid", "fa-eye");
+  } else {
+    eye.classList.add("fa-solid", "fa-eye-slash");
+  }
   eye.onclick = (event) => {
     categoryToggleActivity(event.target);
   };
