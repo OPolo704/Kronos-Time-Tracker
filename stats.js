@@ -9,7 +9,6 @@ function processData() {
     let catDuration = 0;
     sessionData[cat.id].forEach((session) => {
       catDuration += session.getDuration();
-      console.log(session.getDuration());
     });
     const catData = {
       name: cat.name,
@@ -17,10 +16,38 @@ function processData() {
     };
     data.push(catData);
   });
-  return data;
+  processedData = data;
 }
 
 // STAT PAGE
+let processedData = [];
+processData();
+
+const ctx = document.getElementById("pie-chart");
+
+const pieChart = new Chart(ctx, {
+  type: "pie",
+  data: {
+    labels: processedData.map((catData) => catData.name),
+    datasets: [
+      {
+        label: "Time spent in ms",
+        data: processedData.map((catData) => catData.duration),
+        backgroundColor: Chart.defaults.colorPalette,
+        borderWidth: 2,
+        borderColor: "#929191",
+      },
+    ],
+  },
+  options: {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  },
+});
+
 const categoryListGrid = document.querySelector(".category-list-grid");
 
 function printCategories() {
@@ -190,6 +217,18 @@ function categoryManagerToggle() {
 }
 
 categoriesbtn.onclick = categoryManagerToggle;
+
+function categoryManagerClose() {
+  updateViewedCategories();
+  processData();
+  pieChart.data.labels = processedData.map((catData) => catData.name);
+  pieChart.data.datasets[0].data = processedData.map(
+    (catData) => catData.duration
+  );
+  pieChart.update();
+  printCategories();
+  categoryManagerToggle();
+}
 
 const toggler = document.querySelectorAll(".caret");
 
