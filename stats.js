@@ -62,10 +62,13 @@ const categoryListGrid = document.querySelector(".category-list-grid");
 function printCategories() {
   categoryListGrid.innerHTML = "";
 
-  viewedCategories.forEach((cat) => {
+  viewedCategories.forEach((cat, index) => {
     const listItem = document.createElement("div");
     listItem.classList.add("category-list-item");
-    listItem.appendChild(document.createElement("div"));
+
+    const colorBox = document.createElement("div");
+    colorBox.style.backgroundColor = defaultColors[index];
+    listItem.appendChild(colorBox);
 
     const categoryText = document.createElement("div");
     categoryText.textContent = cat.name;

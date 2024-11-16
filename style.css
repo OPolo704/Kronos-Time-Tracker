@@ -331,8 +331,8 @@ ul {
 .category-list-item > :first-child {
   margin-right: 20px;
   height: 20px;
+  border: solid 3px #929191;
   aspect-ratio: 1/1;
-  background-color: #929191;
 }
 
 /* -- CATEGORY MANAGEMENT -- */
