@@ -1,6 +1,25 @@
 let viewedCategories =
   JSON.parse(sessionStorage.getItem("viewedCategories")) || [];
 
+// STAT CALCULATION
+
+function processData() {
+  let data = [];
+  viewedCategories.forEach((cat) => {
+    let catDuration = 0;
+    sessionData[cat.id].forEach((session) => {
+      catDuration += session.getDuration();
+      console.log(session.getDuration());
+    });
+    const catData = {
+      name: cat.name,
+      duration: catDuration,
+    };
+    data.push(catData);
+  });
+  return data;
+}
+
 // STAT PAGE
 const categoryListGrid = document.querySelector(".category-list-grid");
 

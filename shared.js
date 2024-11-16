@@ -40,7 +40,28 @@ class Category {
 
 let id = JSON.parse(sessionStorage.getItem("id")) || 1;
 let categoryData = JSON.parse(sessionStorage.getItem("categoryData")) || [];
-let sessionData = JSON.parse(sessionStorage.getItem("sessionData")) || [[]];
+let sessionData = initializeSessionData(
+  JSON.parse(sessionStorage.getItem("sessionData"))
+) || [[]];
+
+function initializeSessionData(sessionData) {
+  if (!sessionData) {
+    return null;
+  }
+  // when I start implementing subcats make a recursive function for initializing each of the arrays inside
+  sessionData.forEach((category) => {
+    category.forEach((sessionObject) => {
+      const session = new Session();
+      session.name = sessionObject.name;
+      session.startTime = new Date(sessionObject.startTime);
+      session.endTime = new Date(sessionObject.endTime);
+
+      category.push(session);
+      category.shift();
+    });
+  });
+  return sessionData;
+}
 
 function uploadSessionStorage() {
   sessionStorage.setItem("sessionData", JSON.stringify(sessionData));
