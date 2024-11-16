@@ -136,6 +136,9 @@ function createCategoryManagerElement(cat) {
 
   const trash = document.createElement("i");
   trash.classList.add("fa-solid", "fa-trash");
+  trash.onclick = (event) => {
+    categoryDelete(event.target);
+  };
   optionsDiv.appendChild(trash);
 
   catElement.appendChild(optionsDiv);
@@ -191,7 +194,7 @@ function categoryToggleActivity(button) {
 
 function categoryRename(button) {
   const categoryElement = button.parentElement.parentElement;
-  const category = button.parentElement.parentElement.textContent;
+  const categoryName = button.parentElement.parentElement.textContent;
   categoryElement.querySelector("span").textContent = "";
 
   const btninput = document.createElement("input");
@@ -206,16 +209,16 @@ function categoryRename(button) {
   });
 
   btninput.addEventListener("blur", function () {
-    let newCategory;
+    let newCategoryName;
     if (btninput.value === "") {
-      newCategory = category;
+      newCategoryName = categoryName;
     } else {
-      newCategory = btninput.value;
+      newCategoryName = btninput.value;
     }
     categoryElement.removeChild(btninput);
 
     const categoryElementName = document.createElement("span");
-    categoryElementName.textContent = newCategory;
+    categoryElementName.textContent = newCategoryName;
     categoryElement.prepend(categoryElementName);
 
     const checkbox = document.createElement("i");
@@ -225,9 +228,22 @@ function categoryRename(button) {
       categoryToggleView(event.currentTarget);
     };
 
-    const activity = categoryData.find((obj) => obj.name === category);
-    activity.name = newCategory;
+    const activity = categoryData.find((obj) => obj.name === categoryName);
+    activity.name = newCategoryName;
   });
+}
+
+function categoryDelete(button) {
+  const categoryElement = button.parentElement.parentElement;
+  const categoryName = button.parentElement.parentElement.textContent;
+  const categoryIndex = categoryData.findIndex(
+    (obj) => obj.name === categoryName
+  );
+
+  // ADD POP UP TO CONFIRM DECISION, DELETES ALL SESSIONS ASSOCIATED WITH CATEGORY
+  sessionData[categoryData[categoryIndex].id] = [];
+  categoryData.splice(categoryIndex, 1);
+  categoryManagerList.removeChild(categoryElement);
 }
 
 function categoryManagerToggle() {
