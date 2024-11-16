@@ -291,6 +291,8 @@ ul {
   aspect-ratio: 1/1;
   border-radius: 100%;
   box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.25);
+  background-color: #d9d9d9;
+  border: solid 3px #929191;
 }
 
 .categories {

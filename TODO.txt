@@ -9,13 +9,16 @@ sync functionality
 log out functionality
 
 STATS 
-category list follows category manager order
+add color property to each category
+colors changeable by clicking on colorbox and dragging a hue slider
+translate ms to hours and minutes
+maybe lower brightness of color when clicking
 ellipsis on long text that overflows like WWWWWWWWWWWw
-chart.js
 add presets for stat viewing
-when click on slice of pie chart shows percentage as well as total time
 data export options
 CATEGORY MANAGER
+delete button
+add category button
 unselect all button
 are you sure you want to delete category and all the sessions that are part of it? message
 do something about untracked category
@@ -27,9 +30,7 @@ sync animation on sync button
 category manager smooth scroll up animation when opening and closing, maybe even slide down to close
 
 
-CURRENT: change viewedcategories to enabledcategories? or something different
-add activity boolean yes or no property to categories
-make eye button now toggle the activity boolean property
+change viewedcategories to enabledcategories? or something different
 
 
 block duplicate names cat manager

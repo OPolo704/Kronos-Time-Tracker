@@ -26,13 +26,19 @@ function processData() {
     data.push(catData);
   });
   processedData = data;
+  // have to be switching since weird thing where having a border on the parent element affects the dimensions of the canvas making it smaller than the empty circle in the background
+  if (processedData.length !== 0) {
+    ctx.parentElement.style.border = "none";
+  } else {
+    ctx.parentElement.style.border = "solid 3px #929191";
+  }
 }
 
 // STAT PAGE
+const ctx = document.getElementById("pie-chart");
+
 let processedData = [];
 processData();
-
-const ctx = document.getElementById("pie-chart");
 
 const pieChart = new Chart(ctx, {
   type: "pie",
