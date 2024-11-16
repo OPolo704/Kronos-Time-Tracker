@@ -1,6 +1,15 @@
 let viewedCategories =
   JSON.parse(sessionStorage.getItem("viewedCategories")) || [];
 
+const defaultColors = [
+  "#f0afaf",
+  "#aff0f0",
+  "#d2aff0",
+  "#f0dcaf",
+  "#aff0c1",
+  "#afb3f0",
+];
+
 // STAT CALCULATION
 
 function processData() {
@@ -33,8 +42,8 @@ const pieChart = new Chart(ctx, {
       {
         label: "Time spent in ms",
         data: processedData.map((catData) => catData.duration),
-        backgroundColor: Chart.defaults.colorPalette,
-        borderWidth: 2,
+        backgroundColor: defaultColors,
+        borderWidth: 3,
         borderColor: "#929191",
       },
     ],
