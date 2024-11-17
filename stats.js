@@ -196,12 +196,6 @@ function createCategoryManagerElement(cat) {
   });
 }
 
-function createCategoryManagerList() {
-  categoryData.forEach((cat) => {
-    createCategoryManagerElement(cat);
-  });
-}
-
 function updateViewedCategories() {
   viewedCategories = [];
   for (let i = 0; i < categoryManagerList.children.length - 1; i++) {
@@ -310,6 +304,21 @@ function categoryManagerClose() {
   printCategories();
   categoryManagerToggle();
 }
+
+function createCategoryManagerList() {
+  categoryData.forEach((cat) => {
+    createCategoryManagerElement(cat);
+  });
+}
+
+categoryAddbtn.onclick = () => {
+  const newCategory = new Category("");
+  categoryData.push(newCategory);
+  createCategoryManagerElement(newCategory);
+  categoryRename(
+    categoryAddbtn.previousSibling.querySelector(".fa-pen-to-square")
+  );
+};
 
 function toglersRefresh() {
   const toggler = document.querySelectorAll(".caret");

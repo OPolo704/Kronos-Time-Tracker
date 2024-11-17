@@ -5,24 +5,24 @@ position i button absolutely
 get rid of highlight when clicking buttons
 last used category moves to top
 style activity list sidebar
-ACCOUNT POP UP
+ACCOUNT POP UP 👨‍💻
 sync functionality
 log out functionality
 
 STATS 
-add color property to each category --> default color counter
-colors changeable by clicking on colorbox and dragging a hue slider
-translate ms to hours and minutes
+add color property to each category --> default color counter 👨‍💻
+colors changeable by clicking on colorbox and dragging a hue slider 👨‍💻
+translate ms to hours and minutes 👨‍💻
 maybe lower brightness of color when clicking
 ellipsis on long text that overflows like WWWWWWWWWWWw
 add presets for stat viewing
 data export options
 CATEGORY MANAGER
-add category button
 make subcategory system
 unselect all button
 are you sure you want to delete category and all the sessions that are part of it? message
 do something about untracked category
+on rename maintain check box state
 
 
 general nice additions
@@ -35,7 +35,7 @@ change viewedcategories to enabledcategories? or something different
 
 REMOVE WHITE SPACE TO END THE CATEGORY NAME (aka "Coding " --> "Coding")
 block duplicate names cat manager --> new idea when renaming to a prexesisting name, categories' sessions get merged under the new name with pop up warning
-
+block empty as well with "Unnamed Category"
 
 
 
