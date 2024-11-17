@@ -10,7 +10,7 @@ sync functionality
 log out functionality
 
 STATS 
-add color property to each category
+add color property to each category --> default color counter
 colors changeable by clicking on colorbox and dragging a hue slider
 translate ms to hours and minutes
 maybe lower brightness of color when clicking
@@ -40,3 +40,4 @@ block duplicate names cat manager --> new idea when renaming to a prexesisting n
 
 
 idea for future: when selecting activity clear select activity bar and turn it into a search bar the filters options
+learn react and implement dnd kit (https://www.youtube.com/watch?v=RG-3R6Pu_Ik)

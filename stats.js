@@ -147,6 +147,53 @@ function createCategoryManagerElement(cat) {
     catElement,
     document.querySelector(".category-add-btn")
   );
+
+  catElement.draggable = true;
+  catElement.addEventListener("dragstart", () => {
+    catElement.classList.add("dragging");
+  });
+
+  catElement.addEventListener("dragend", () => {
+    catElement.classList.remove("dragging");
+
+    if (catElement.nextSibling !== categoryAddbtn) {
+      const categoryIndex = categoryData.findIndex((element) => {
+        return element.name === catElement.textContent;
+      });
+      const categoryBeforeIndex = categoryData.findIndex((element) => {
+        return element.name === catElement.nextSibling.textContent;
+      });
+
+      categoryData.splice(
+        categoryBeforeIndex,
+        0,
+        categoryData.splice(categoryIndex, 1)[0]
+      );
+      console.log(categoryData);
+    } else {
+      const categoryIndex = categoryData.findIndex((cat) => {
+        return cat.name === catElement.textContent;
+      });
+
+      categoryData.push(categoryData.splice(categoryIndex, 1)[0]);
+    }
+  });
+
+  catElement.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    const dragged = document.querySelector(".dragging");
+    const rect = catElement.getBoundingClientRect();
+
+    // const x = event.clientX - rect.x;
+    // const y = event.clientY - rect.y;
+    const middleLine = (rect.y + rect.bottom) / 2;
+
+    if (event.clientY < middleLine) {
+      categoryManagerList.insertBefore(dragged, catElement);
+    } else {
+      categoryManagerList.insertBefore(dragged, catElement.nextSibling);
+    }
+  });
 }
 
 function createCategoryManagerList() {

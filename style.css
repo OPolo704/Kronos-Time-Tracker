@@ -428,3 +428,7 @@ li {
 .active {
   display: block;
 }
+
+.dragging {
+  opacity: 0.5;
+}
