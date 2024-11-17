@@ -24,6 +24,7 @@ class Category {
     this.name = name;
     this.subCategories = [];
     this.activity = true;
+    this.color = "hsl(" + cycleHSL((id - 1) * 207) + " 68 81)";
     this.id = id;
     sessionData[this.id] = [];
     id++;
@@ -36,6 +37,10 @@ class Category {
   addSubCategory(subcat) {
     subCategories.push(subcat);
   }
+}
+
+function cycleHSL(color) {
+  return color % 360;
 }
 
 let id = JSON.parse(sessionStorage.getItem("id")) || 1;

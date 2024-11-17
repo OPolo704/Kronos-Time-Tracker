@@ -1,15 +1,6 @@
 let viewedCategories =
   JSON.parse(sessionStorage.getItem("viewedCategories")) || [];
 
-const defaultColors = [
-  "#f0afaf",
-  "#aff0f0",
-  "#d2aff0",
-  "#f0dcaf",
-  "#aff0c1",
-  "#afb3f0",
-];
-
 // STAT CALCULATION
 
 function processData() {
@@ -22,6 +13,7 @@ function processData() {
     const catData = {
       name: cat.name,
       duration: catDuration,
+      color: cat.color,
     };
     data.push(catData);
   });
@@ -48,7 +40,7 @@ const pieChart = new Chart(ctx, {
       {
         label: "Time spent in ms",
         data: processedData.map((catData) => catData.duration),
-        backgroundColor: defaultColors,
+        backgroundColor: processedData.map((catData) => catData.color),
         borderWidth: 3,
         borderColor: "#929191",
       },
@@ -68,12 +60,12 @@ const categoryListGrid = document.querySelector(".category-list-grid");
 function printCategories() {
   categoryListGrid.innerHTML = "";
 
-  viewedCategories.forEach((cat, index) => {
+  viewedCategories.forEach((cat) => {
     const listItem = document.createElement("div");
     listItem.classList.add("category-list-item");
 
     const colorBox = document.createElement("div");
-    colorBox.style.backgroundColor = defaultColors[index];
+    colorBox.style.backgroundColor = cat.color;
     listItem.appendChild(colorBox);
 
     const categoryText = document.createElement("div");
@@ -299,6 +291,9 @@ function categoryManagerClose() {
   pieChart.data.labels = processedData.map((catData) => catData.name);
   pieChart.data.datasets[0].data = processedData.map(
     (catData) => catData.duration
+  );
+  pieChart.data.datasets[0].backgroundColor = processedData.map(
+    (catData) => catData.color
   );
   pieChart.update();
   printCategories();
