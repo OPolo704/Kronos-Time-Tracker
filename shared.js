@@ -86,6 +86,11 @@ function statsRedirect() {
   window.location.href = "stats.html";
 }
 
+function calendarRedirect() {
+  uploadSessionStorage();
+  window.location.href = "calendar.html";
+}
+
 // google api stuff below
 let accessToken;
 

@@ -20,9 +20,15 @@ data export options
 CATEGORY MANAGER
 make subcategory system
 unselect all button
+addbtn add default name when empty
 are you sure you want to delete category and all the sessions that are part of it? message
 do something about untracked category
 on rename maintain check box state
+
+CALENDAR
+maybe change date select for a month calendar
+add for desktop a week and maybe month view option
+deal with sessions in between two different days and maybe extend to many different days as well in case
 
 
 general nice additions
