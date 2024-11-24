@@ -26,7 +26,7 @@ do something about untracked category
 on rename maintain check box state
 
 CALENDAR
-maybe change date select for a month calendar
+maybe change date select for a month calendar and/or ability to type in date similar to activity select
 add for desktop a week and maybe month view option
 deal with sessions in between two different days and maybe extend to many different days as well in case
 
@@ -35,6 +35,7 @@ general nice additions
 ensure hover functionality on everything
 sync animation on sync button
 category manager smooth scroll up animation when opening and closing, maybe even slide down to close
+make sure text is not selectable
 
 
 change viewedcategories to enabledcategories? or something different
