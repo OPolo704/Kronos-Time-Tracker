@@ -451,24 +451,49 @@ li {
   background-color: #eaeaea;
 }
 
-.date-options {
-  height: 100%;
-  width: 40px;
-  border-left: 3px solid #929191;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.top-bar button {
+  background-color: white;
+  border: none;
+  border-bottom: 3px solid #929191;
+  border-radius: 0px;
+  box-shadow: none;
+  height: 45px;
+  font-size: 1.2rem;
+  flex-shrink: 0;
 }
 
-.day {
+.date-list {
+  height: 200px;
+  position: absolute;
+  top: 71px;
+  background-color: white;
+  border: 3px solid #929191;
+  border-top: none;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.year {
   height: 100%;
-  width: 60px;
+  width: 100px;
   background-color: white;
   border-left: 3px solid #929191;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.year > button {
+  border: none;
+  height: 100%;
+  width: 100%;
+  font-size: 2rem;
+}
+
+.year .date-list {
+  width: 100px;
 }
 
 .month {
@@ -479,14 +504,48 @@ li {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
-.year {
+.month > button {
+  border: none;
   height: 100%;
-  width: 100px;
+  width: 100%;
+  font-size: 2rem;
+}
+
+.month .date-list {
+  width: 66px;
+}
+
+.day {
+  height: 100%;
+  width: 60px;
   background-color: white;
   border-left: 3px solid #929191;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.day > button {
+  border: none;
+  height: 100%;
+  width: 100%;
+  font-size: 2rem;
+}
+
+.day .date-list {
+  width: 60px;
+}
+
+.date-options {
+  height: 100%;
+  width: 40px;
+  border-left: 3px solid #929191;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
