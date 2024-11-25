@@ -1,6 +1,7 @@
 upload everything to localstorage not just sessionstorage since syncing is manual now
 
 MAIN
+big one - minimum session length of like 2min
 position i button absolutely
 get rid of highlight when clicking buttons
 last used category moves to top
@@ -28,8 +29,7 @@ on rename maintain check box state
 CALENDAR
 maybe change date select for a month calendar and/or ability to type in date similar to activity select
 add for desktop a week and maybe month view option
-deal with sessions in between two different days and maybe extend to many different days as well in case
-
+split sessions in between two different days and maybe extend to many different days as well in case 👨‍💻 (code into the actual finish session part)
 
 general nice additions
 ensure hover functionality on everything
