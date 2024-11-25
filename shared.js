@@ -4,6 +4,7 @@ class Session {
     this.name = "Untitled Session";
     this.startTime;
     this.endTime;
+    this.category;
   }
 
   setName(name) {

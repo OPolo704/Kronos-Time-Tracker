@@ -1,7 +1,10 @@
 let chronologicalData = [];
 
-sessionData.forEach((cat) => {
-  cat.forEach((session) => {
+sessionData.forEach((catID, index) => {
+  // for each catID find the corresponding category to the id in categoryData and grab the name and color
+  const cat = categoryData.find((cat) => cat.id === index);
+
+  catID.forEach((session) => {
     const startTime = session.startTime;
 
     yearIndex = chronologicalData.findIndex((obj) => {
@@ -11,6 +14,8 @@ sessionData.forEach((cat) => {
       createYear(startTime.getFullYear());
       yearIndex = chronologicalData.length - 1;
     }
+
+    session.category = cat;
 
     chronologicalData[yearIndex].sessions[startTime.getMonth()][
       startTime.getDate() - 1

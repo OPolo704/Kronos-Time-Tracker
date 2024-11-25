@@ -36,6 +36,7 @@ ensure hover functionality on everything
 sync animation on sync button
 category manager smooth scroll up animation when opening and closing, maybe even slide down to close
 make sure text is not selectable
+calendar bottom and top add shadow when there is still space to scroll
 
 
 change viewedcategories to enabledcategories? or something different
