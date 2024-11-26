@@ -6,11 +6,16 @@ const timeline = document.querySelector(".timeline");
 let chronologicalData = [];
 let currentDate = [2024, 9, 11];
 
-sessionData.forEach((catID, index) => {
-  // insert sessions to the chronologicalData array
-  const cat = categoryData.find((cat) => cat.id === index);
+sessionData.forEach((catSessions, index) => {
+  // inserts sessions to the chronologicalData array
+  let cat;
+  if (index === 0) {
+    cat = unsortedCat;
+  } else {
+    cat = categoryData.find((cat) => cat.id === index);
+  }
 
-  catID.forEach((session) => {
+  catSessions.forEach((session) => {
     const startTime = session.startTime;
 
     yearIndex = chronologicalData.findIndex((obj) => {
@@ -123,12 +128,21 @@ function printDay() {
     const daySessions = yearSessions[currentDate[1] - 1][currentDate[2] - 1];
 
     daySessions.forEach((session) => {
-      const startHour = session.startTime.getHours();
-
-      const hourLine = timeline.querySelectorAll(".hour-line")[startHour];
+      const hourLine =
+        timeline.querySelectorAll(".hour-line")[session.startTime.getHours()];
 
       const sessionBlock = document.createElement("div");
       sessionBlock.classList.add("timeline-session");
+
+      const minUnit = hourLine.offsetHeight / 60;
+
+      sessionBlock.style.top =
+        Math.floor(minUnit * session.startTime.getMinutes()) + "px";
+
+      sessionBlock.style.height =
+        Math.floor(minUnit * (session.getDuration() / 60000)) + "px";
+
+      sessionBlock.style.backgroundColor = session.category.color;
 
       hourLine.appendChild(sessionBlock);
     });

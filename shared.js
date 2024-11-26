@@ -50,6 +50,11 @@ let sessionData = initializeSessionData(
   JSON.parse(sessionStorage.getItem("sessionData"))
 ) || [[]];
 
+const unsortedCat = {
+  name: "Unsorted",
+  color: "#EAEAEA",
+};
+
 function initializeSessionData(sessionData) {
   if (!sessionData) {
     return null;

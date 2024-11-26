@@ -54,9 +54,8 @@ function finalizeButton(newbtn) {
     categoryName = "Unnamed Category";
   }
 
-  const newCategory = new Category(categoryName);
-
   if (!categoryData.some((obj) => obj.name === categoryName)) {
+    const newCategory = new Category(categoryName);
     // if name unique
     categoryData.push(newCategory);
     newbtn.onclick = (event) => {
