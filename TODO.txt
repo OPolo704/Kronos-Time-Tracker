@@ -11,7 +11,6 @@ sync functionality
 log out functionality
 
 STATS 
-add color property to each category --> default color counter 👨‍💻
 colors changeable by clicking on colorbox and dragging a hue slider 👨‍💻
 translate ms to hours and minutes 👨‍💻
 maybe lower brightness of color when clicking
@@ -27,6 +26,7 @@ do something about untracked category
 on rename maintain check box state
 
 CALENDAR
+make plus and minus buttons functional
 maybe change date select for a month calendar and/or ability to type in date similar to activity select
 add for desktop a week and maybe month view option
 split sessions in between two different days and maybe extend to many different days as well in case 👨‍💻 (code into the actual finish session part)

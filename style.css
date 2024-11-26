@@ -588,5 +588,28 @@ li {
   top: 0;
   border: 3px solid rgba(146, 145, 145, 0.7);
   border-radius: 11px;
-  z-index: 10;
+  z-index: 2;
+  padding: 10px;
+}
+
+.timeline-session .top {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.timeline-session .top div:first-child {
+  flex-grow: 1;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.timeline-session .bottom {
+  margin-top: 3%;
+  display: flex;
+  height: 100%;
+}
+
+.timeline-session .bottom div:first-child {
+  flex-grow: 1;
 }

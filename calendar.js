@@ -120,6 +120,12 @@ function createDateList() {
 }
 
 function printDay() {
+  for (let i = 0; i < timeline.children.length; i++) {
+    while (timeline.children[i].children.length > 1) {
+      timeline.children[i].removeChild(timeline.children[i].lastChild);
+    }
+  }
+
   const yearSessions = chronologicalData.find(
     (obj) => obj.year === currentDate[0]
   ).sessions;
@@ -138,14 +144,52 @@ function printDay() {
 
       sessionBlock.style.top =
         Math.floor(minUnit * session.startTime.getMinutes()) + "px";
-
       sessionBlock.style.height =
         Math.floor(minUnit * (session.getDuration() / 60000)) + "px";
-
       sessionBlock.style.backgroundColor = session.category.color;
+
+      const top = document.createElement("div");
+      top.classList.add("top");
+      const category = document.createElement("div");
+      category.textContent = session.category.name;
+      const timeSpan = document.createElement("div");
+      timeSpan.textContent =
+        formatTime(session.startTime.getHours()) +
+        ":" +
+        formatTime(session.startTime.getMinutes()) +
+        "-" +
+        formatTime(session.endTime.getHours()) +
+        ":" +
+        formatTime(session.endTime.getMinutes());
+      top.appendChild(category);
+      top.appendChild(timeSpan);
+
+      const bottom = document.createElement("div");
+      bottom.classList.add("bottom");
+      const name = document.createElement("div");
+      name.textContent = session.name;
+      const duration = document.createElement("div");
+      duration.textContent =
+        Math.floor(session.getDuration() / 3600000) +
+        "h " +
+        Math.floor((session.getDuration() / 60000) % 60) +
+        "m";
+      bottom.appendChild(name);
+      bottom.appendChild(duration);
+
+      sessionBlock.appendChild(top);
+      sessionBlock.appendChild(bottom);
 
       hourLine.appendChild(sessionBlock);
     });
+  }
+}
+
+function formatTime(time) {
+  if (time < 10) {
+    return "0" + time;
+  } else {
+    return time;
   }
 }
 
