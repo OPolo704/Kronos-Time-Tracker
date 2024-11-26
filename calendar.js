@@ -1,6 +1,7 @@
 const yearbtn = document.querySelector(".year-btn");
 const monthbtn = document.querySelector(".month-btn");
 const daybtn = document.querySelector(".day-btn");
+const timeline = document.querySelector(".timeline");
 
 let chronologicalData = [];
 let currentDate = [2024, 9, 11];
@@ -50,11 +51,7 @@ function createYear(year) {
 function createDateList() {
   const today = new Date();
 
-  currentDate = [
-    today.getFullYear(),
-    today.getMonth() + 1,
-    today.getDate() + 1,
-  ];
+  currentDate = [today.getFullYear(), today.getMonth() + 1, today.getDate()];
 
   if (chronologicalData.length === 0) {
     // if there are no sessions makes it so that current year is still registered, not really useful since you're not gonna be changing the year with no sessions but to maintain consistency ig
@@ -75,6 +72,7 @@ function createDateList() {
       currentDate[0] = +event.target.textContent;
       yearbtn.textContent = currentDate[0];
       event.target.parentElement.classList.add("hidden");
+      printDay();
     };
 
     const yearList = document
@@ -94,9 +92,10 @@ function createDateList() {
       currentDate[1] = +event.target.textContent;
       monthbtn.textContent = currentDate[1];
       event.target.parentElement.classList.add("hidden");
+      printDay();
     };
 
-    monthList.append(newbtn);
+    monthList.appendChild(newbtn);
   }
 
   for (let i = 0; i < 31; i++) {
@@ -106,13 +105,35 @@ function createDateList() {
       currentDate[2] = +event.target.textContent;
       daybtn.textContent = currentDate[2];
       event.target.parentElement.classList.add("hidden");
+      printDay();
     };
 
-    dayList.append(newbtn);
+    dayList.appendChild(newbtn);
   }
+
+  printDay();
 }
 
-function printDay() {}
+function printDay() {
+  const yearSessions = chronologicalData.find(
+    (obj) => obj.year === currentDate[0]
+  ).sessions;
+
+  if (yearSessions.length > 0) {
+    const daySessions = yearSessions[currentDate[1] - 1][currentDate[2] - 1];
+
+    daySessions.forEach((session) => {
+      const startHour = session.startTime.getHours();
+
+      const hourLine = timeline.querySelectorAll(".hour-line")[startHour];
+
+      const sessionBlock = document.createElement("div");
+      sessionBlock.classList.add("timeline-session");
+
+      hourLine.appendChild(sessionBlock);
+    });
+  }
+}
 
 yearbtn.onclick = (event) => {
   event.currentTarget.nextElementSibling.classList.toggle("hidden");

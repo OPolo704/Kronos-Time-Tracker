@@ -574,4 +574,14 @@ li {
   padding-left: 3px;
   opacity: 0.7;
   font-size: 1.2rem;
+  position: relative;
+}
+
+.timeline-session {
+  width: 300px;
+  height: 100px;
+  background-color: black;
+  margin-left: 70px;
+  position: absolute;
+  top: 0;
 }
