@@ -590,6 +590,9 @@ li {
   border-radius: 11px;
   z-index: 2;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /*temporary solution but adjust overflow according to height later on */
 }
 
 .timeline-session .top {
@@ -605,11 +608,13 @@ li {
 }
 
 .timeline-session .bottom {
-  margin-top: 3%;
+  flex-grow: 1;
   display: flex;
-  height: 100%;
+  align-items: end;
 }
 
 .timeline-session .bottom div:first-child {
   flex-grow: 1;
+  margin-right: 10px;
+  align-self: start;
 }

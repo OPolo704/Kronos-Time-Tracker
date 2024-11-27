@@ -174,6 +174,7 @@ function printDay() {
         "h " +
         Math.floor((session.getDuration() / 60000) % 60) +
         "m";
+      duration.style.whiteSpace = "nowrap";
       bottom.appendChild(name);
       bottom.appendChild(duration);
 
