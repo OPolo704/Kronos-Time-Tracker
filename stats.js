@@ -38,7 +38,7 @@ const pieChart = new Chart(ctx, {
     labels: processedData.map((catData) => catData.name),
     datasets: [
       {
-        label: "Time spent in ms",
+        label: "Total time",
         data: processedData.map((catData) => catData.duration),
         backgroundColor: processedData.map((catData) => catData.color),
         borderWidth: 3,
@@ -48,6 +48,19 @@ const pieChart = new Chart(ctx, {
   },
   options: {
     plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const timeInMs = context.raw;
+            const time =
+              Math.floor(timeInMs / 3600000) +
+              "h " +
+              Math.floor((timeInMs / 60000) % 60) +
+              "m";
+            return "Total time: " + time;
+          },
+        },
+      },
       legend: {
         display: false,
       },
