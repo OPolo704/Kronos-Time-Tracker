@@ -4,6 +4,8 @@ LOOKS BETTER WITH PREVIOUS BACKGROUND COLOR, ADJUST
 
 MAIN
 big one - minimum session length of like 2min
+separate screen when a session is running which lets you change sessionName n shit
+sessionName distributed between all split sessions
 position i button absolutely
 get rid of highlight when clicking buttons
 last used category moves to top
@@ -22,16 +24,17 @@ CATEGORY MANAGER
 make subcategory system
 unselect all button
 addbtn add default name when empty
+make it so that id for newcat is also decided by first checking for empty arrays in sessionData and using them thus reusing some of the old ids
 are you sure you want to delete category and all the sessions that are part of it? message
 do something about untracked category & unsorted
 on rename maintain check box state
 
 CALENDAR
-make plus and minus buttons functional
 maybe change date select for a month calendar and/or ability to type in date similar to activity select
 add for desktop a week and maybe month view option
 do something about overlap?
 split sessions in between two different days and maybe extend to many different days as well in case 👨‍💻 (code into the actual finish session part)
+add sessionblock detail window onclick 👨‍💻
 maybe change sessionblocks inside to a grid and do it so that when possible have top div and then bottom div elements position name on top of duration, but when no space have name and duration on the same row
 if I make a month view make it so that you can filter out by categories and see which days you've done x n such
 

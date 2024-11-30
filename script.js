@@ -121,7 +121,37 @@ function stopTimer() {
     newSessionID = selectedActivity.id;
   }
 
-  sessionData[newSessionID].push(newSession);
+  const splittedSession = splitSession(newSession);
+
+  for (let i = splittedSession.length - 1; i >= 0; i--) {
+    sessionData[newSessionID].push(splittedSession[i]);
+  }
+}
+
+function splitSession(session) {
+  if (
+    session.startTime.getDate() !== session.endTime.getDate() ||
+    session.startTime.getMonth() !== session.endTime.getMonth()
+  ) {
+    const fragmentSession = new Session();
+    fragmentSession.endTime = session.endTime;
+    fragmentSession.startTime = new Date("November 30, 2024 00:00:00");
+    fragmentSession.startTime.setDate(session.endTime.getDate());
+
+    const remainingSessions = new Session();
+    remainingSessions.startTime = session.startTime;
+    remainingSessions.endTime = new Date(
+      session.endTime.getFullYear(),
+      session.endTime.getMonth(),
+      session.endTime.getDate() - 1,
+      23,
+      59,
+      59
+    );
+    return [fragmentSession, ...splitSession(remainingSessions)];
+  } else {
+    return [session];
+  }
 }
 
 //account button
