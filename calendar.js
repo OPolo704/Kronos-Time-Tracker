@@ -1,6 +1,8 @@
 const yearbtn = document.querySelector(".year-btn");
 const monthbtn = document.querySelector(".month-btn");
 const daybtn = document.querySelector(".day-btn");
+const dateIncreasebtn = document.querySelector(".date-increase");
+const dateDecreasebtn = document.querySelector(".date-decrease");
 const timeline = document.querySelector(".timeline");
 
 let chronologicalData = [];
@@ -75,7 +77,6 @@ function createDateList() {
     newbtn.textContent = year.year;
     newbtn.onclick = (event) => {
       currentDate[0] = +event.target.textContent;
-      yearbtn.textContent = currentDate[0];
       event.target.parentElement.classList.add("hidden");
       printDay();
     };
@@ -83,7 +84,7 @@ function createDateList() {
     const yearList = document
       .querySelector(".year")
       .querySelector(".date-list");
-    yearList.prepend(newbtn);
+    yearList.append(newbtn);
   });
 
   const monthList = document
@@ -95,7 +96,6 @@ function createDateList() {
     newbtn.textContent = i + 1;
     newbtn.onclick = (event) => {
       currentDate[1] = +event.target.textContent;
-      monthbtn.textContent = currentDate[1];
       event.target.parentElement.classList.add("hidden");
       printDay();
     };
@@ -108,7 +108,6 @@ function createDateList() {
     newbtn.textContent = i + 1;
     newbtn.onclick = (event) => {
       currentDate[2] = +event.target.textContent;
-      daybtn.textContent = currentDate[2];
       event.target.parentElement.classList.add("hidden");
       printDay();
     };
@@ -120,6 +119,10 @@ function createDateList() {
 }
 
 function printDay() {
+  yearbtn.textContent = currentDate[0];
+  monthbtn.textContent = currentDate[1];
+  daybtn.textContent = currentDate[2];
+
   for (let i = 0; i < timeline.children.length; i++) {
     while (timeline.children[i].children.length > 1) {
       timeline.children[i].removeChild(timeline.children[i].lastChild);
@@ -204,4 +207,60 @@ monthbtn.onclick = (event) => {
 
 daybtn.onclick = (event) => {
   event.currentTarget.nextElementSibling.classList.toggle("hidden");
+};
+
+dateIncreasebtn.onclick = () => {
+  currentDate[2]++;
+  if (currentDate[2] > 31) {
+    currentDate[1]++;
+    currentDate[2] = 1;
+  }
+  if (currentDate[1] > 12) {
+    currentDate[0]++;
+    currentDate[1] = 1;
+    if (!chronologicalData.find((year) => year.year === currentDate[0])) {
+      createYear(currentDate[0]);
+
+      const newbtn = document.createElement("button");
+      newbtn.textContent = currentDate[0];
+      newbtn.onclick = (event) => {
+        currentDate[0] = +event.target.textContent;
+        event.target.parentElement.classList.add("hidden");
+        printDay();
+      };
+      document
+        .querySelector(".year")
+        .querySelector(".date-list")
+        .append(newbtn);
+    }
+  }
+  printDay();
+};
+
+dateDecreasebtn.onclick = () => {
+  currentDate[2]--;
+  if (currentDate[2] < 1) {
+    currentDate[1]--;
+    currentDate[2] = 31;
+  }
+  if (currentDate[1] < 1) {
+    currentDate[0]--;
+    currentDate[1] = 12;
+    if (!chronologicalData.find((year) => year.year === currentDate[0])) {
+      createYear(currentDate[0]);
+
+      const newbtn = document.createElement("button");
+      newbtn.textContent = currentDate[0];
+      newbtn.onclick = (event) => {
+        currentDate[0] = +event.target.textContent;
+        event.target.parentElement.classList.add("hidden");
+        printDay();
+      };
+      document
+        .querySelector(".year")
+        .querySelector(".date-list")
+        .prepend(newbtn);
+    }
+  }
+  printDay();
 };

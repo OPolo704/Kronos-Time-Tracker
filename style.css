@@ -474,6 +474,10 @@ li {
   overflow-y: auto;
 }
 
+:is(.month, .day) .date-list button:last-child {
+  border: none;
+}
+
 .year {
   height: 100%;
   width: 100px;

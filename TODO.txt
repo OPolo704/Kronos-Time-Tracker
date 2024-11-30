@@ -14,7 +14,6 @@ log out functionality
 
 STATS 
 colors changeable by clicking on colorbox and dragging a hue slider 👨‍💻
-translate ms to hours and minutes 👨‍💻
 maybe lower brightness of color when clicking
 ellipsis on long text that overflows like WWWWWWWWWWWw
 add presets for stat viewing
@@ -24,7 +23,7 @@ make subcategory system
 unselect all button
 addbtn add default name when empty
 are you sure you want to delete category and all the sessions that are part of it? message
-do something about untracked category
+do something about untracked category & unsorted
 on rename maintain check box state
 
 CALENDAR
@@ -34,6 +33,7 @@ add for desktop a week and maybe month view option
 do something about overlap?
 split sessions in between two different days and maybe extend to many different days as well in case 👨‍💻 (code into the actual finish session part)
 maybe change sessionblocks inside to a grid and do it so that when possible have top div and then bottom div elements position name on top of duration, but when no space have name and duration on the same row
+if I make a month view make it so that you can filter out by categories and see which days you've done x n such
 
 general nice additions
 ensure hover functionality on everything
