@@ -118,6 +118,7 @@ function createCategoryManagerElement(cat) {
   catElementName.textContent = cat.name;
 
   const caretDiv = document.createElement("div");
+  caretDiv.classList.add("caret-down");
   caretDiv.onclick = (event) => {
     event.currentTarget.parentElement.parentElement
       .querySelector(".nested")
@@ -173,6 +174,7 @@ function createCategoryManagerElement(cat) {
 
   const subCategoryList = document.createElement("ul");
   subCategoryList.classList.add("nested");
+  subCategoryList.classList.add("active");
   catElement.appendChild(subCategoryList);
 
   categoryManagerList.insertBefore(
@@ -227,15 +229,21 @@ function createCategoryManagerElement(cat) {
       const rect = catElement.getBoundingClientRect();
 
       const middleLine = (rect.y + rect.bottom) / 2;
-      const middleLineHorizontal = (rect.x + rect.right) / 6;
+      const middleLineHorizontal = (rect.x + rect.right) / 4;
 
       const categoryParentElement = catElement.parentElement;
-      console.log(catElement);
       if (catElement === dragged) {
         if (
           event.clientX > middleLineHorizontal &&
           categoryParentElement.children[0] !== catElement
         ) {
+          catElement.previousSibling
+            .querySelector(".category-manager-element")
+            .querySelector("div")
+            .classList.add("caret-down");
+          catElement.previousSibling
+            .querySelector(".nested")
+            .classList.add("active");
           catElement.previousSibling
             .querySelector(".nested")
             .appendChild(dragged);
@@ -251,8 +259,15 @@ function createCategoryManagerElement(cat) {
         } else {
           if (catElement.previousSibling !== dragged) {
             catElement.previousSibling
+              .querySelector(".category-manager-element")
+              .querySelector("div")
+              .classList.add("caret-down");
+            catElement.previousSibling
               .querySelector(".nested")
               .appendChild(dragged);
+            catElement.previousSibling
+              .querySelector(".nested")
+              .classList.add("active");
             nestedCategoriesRefresh();
           }
         }
@@ -261,7 +276,13 @@ function createCategoryManagerElement(cat) {
           categoryParentElement.insertBefore(dragged, catElement.nextSibling);
           nestedCategoriesRefresh();
         } else {
+          console.log(catElement);
+          catElement
+            .querySelector(".category-manager-element")
+            .querySelector("div")
+            .classList.add("caret-down");
           catElement.querySelector(".nested").appendChild(dragged);
+          catElement.querySelector(".nested").classList.add("active");
           nestedCategoriesRefresh();
         }
       }

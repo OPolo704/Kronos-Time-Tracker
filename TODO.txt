@@ -21,7 +21,7 @@ ellipsis on long text that overflows like WWWWWWWWWWWw
 add presets for stat viewing
 data export options
 CATEGORY MANAGER
-make subcategory system
+automatically uncheck main category if any one of the subcategories is disabled, enable all subcats if main cat is enabled
 unselect all button
 addbtn add default name when empty
 make it so that id for newcat is also decided by first checking for empty arrays in sessionData and using them thus reusing some of the old ids
