@@ -6,10 +6,7 @@ let viewedCategories =
 function processData() {
   let data = [];
   viewedCategories.forEach((cat) => {
-    let catDuration = 0;
-    sessionData[cat.id].forEach((session) => {
-      catDuration += session.getDuration();
-    });
+    const catDuration = categoryDuration(cat);
     const catData = {
       name: cat.name,
       duration: catDuration,
@@ -24,6 +21,21 @@ function processData() {
   } else {
     ctx.parentElement.style.border = "solid 3px #929191";
   }
+}
+
+function categoryDuration(cat) {
+  let catDuration = 0;
+  sessionData[cat.id].forEach((session) => {
+    catDuration += session.getDuration();
+  });
+
+  if (cat.subCategories.length > 0) {
+    cat.subCategories.forEach((subcat) => {
+      catDuration += categoryDuration(subcat);
+    });
+  }
+
+  return catDuration;
 }
 
 // STAT PAGE
@@ -101,8 +113,17 @@ createCategoryManagerList();
 
 function createCategoryManagerElement(cat) {
   const catElement = document.createElement("li");
+  const catElementDetails = document.createElement("div");
   const catElementName = document.createElement("span");
   catElementName.textContent = cat.name;
+
+  const caretDiv = document.createElement("div");
+  caretDiv.onclick = (event) => {
+    event.currentTarget.parentElement.parentElement
+      .querySelector(".nested")
+      .classList.toggle("active");
+    event.currentTarget.classList.toggle("caret-down");
+  };
 
   const checkbox = document.createElement("i");
   if (viewedCategories.some((obj) => obj.id === cat.id)) {
@@ -115,8 +136,9 @@ function createCategoryManagerElement(cat) {
     categoryToggleView(event.currentTarget);
   };
 
-  catElement.appendChild(catElementName);
-  catElement.classList.add("category-manager-element");
+  catElementDetails.appendChild(caretDiv);
+  catElementDetails.appendChild(catElementName);
+  catElementDetails.classList.add("category-manager-element");
 
   const optionsDiv = document.createElement("div");
   optionsDiv.classList.add("category-options");
@@ -146,34 +168,47 @@ function createCategoryManagerElement(cat) {
   };
   optionsDiv.appendChild(trash);
 
-  catElement.appendChild(optionsDiv);
+  catElementDetails.appendChild(optionsDiv);
+  catElement.appendChild(catElementDetails);
+
+  const subCategoryList = document.createElement("ul");
+  subCategoryList.classList.add("nested");
+  catElement.appendChild(subCategoryList);
 
   categoryManagerList.insertBefore(
     catElement,
     document.querySelector(".category-add-btn")
   );
 
-  catElement.draggable = true;
-  catElement.addEventListener("dragstart", () => {
-    catElement.classList.add("dragging");
-  });
+  catElement.querySelector(".category-manager-element").draggable = true;
+  catElement
+    .querySelector(".category-manager-element")
+    .addEventListener("dragstart", () => {
+      console.log(catElement);
+      catElement.classList.add("dragging");
+      catElement.querySelector(".nested").classList.remove("active");
+      catElement
+        .querySelector(".category-manager-element")
+        .firstChild.classList.remove("caret-down");
+    });
 
   catElement.addEventListener("dragend", () => {
     catElement.classList.remove("dragging");
 
     if (catElement.nextSibling !== categoryAddbtn) {
-      const categoryIndex = categoryData.findIndex((element) => {
-        return element.name === catElement.textContent;
-      });
-      const categoryBeforeIndex = categoryData.findIndex((element) => {
-        return element.name === catElement.nextSibling.textContent;
-      });
+      // this is the actual categoryData sort --> modify to include subcategories
+      // const categoryIndex = categoryData.findIndex((element) => {
+      //   return element.name === catElement.textContent;
+      // });
+      // const categoryBeforeIndex = categoryData.findIndex((element) => {
+      //   return element.name === catElement.nextSibling.textContent;
+      // });
 
-      categoryData.splice(
-        categoryBeforeIndex,
-        0,
-        categoryData.splice(categoryIndex, 1)[0]
-      );
+      // categoryData.splice(
+      //   categoryBeforeIndex,
+      //   0,
+      //   categoryData.splice(categoryIndex, 1)[0]
+      // );
       console.log(categoryData);
     } else {
       const categoryIndex = categoryData.findIndex((cat) => {
@@ -184,19 +219,63 @@ function createCategoryManagerElement(cat) {
     }
   });
 
+  catElement
+    .querySelector(".category-manager-element")
+    .addEventListener("dragover", (event) => {
+      event.preventDefault();
+      const dragged = document.querySelector(".dragging");
+      const rect = catElement.getBoundingClientRect();
+
+      const middleLine = (rect.y + rect.bottom) / 2;
+      const middleLineHorizontal = (rect.x + rect.right) / 6;
+
+      const categoryParentElement = catElement.parentElement;
+      console.log(catElement);
+      if (catElement === dragged) {
+        if (
+          event.clientX > middleLineHorizontal &&
+          categoryParentElement.children[0] !== catElement
+        ) {
+          catElement.previousSibling
+            .querySelector(".nested")
+            .appendChild(dragged);
+          nestedCategoriesRefresh();
+        }
+      } else if (event.clientY < middleLine) {
+        if (
+          event.clientX < middleLineHorizontal ||
+          categoryParentElement.children[0] === catElement
+        ) {
+          categoryParentElement.insertBefore(dragged, catElement);
+          nestedCategoriesRefresh();
+        } else {
+          if (catElement.previousSibling !== dragged) {
+            catElement.previousSibling
+              .querySelector(".nested")
+              .appendChild(dragged);
+            nestedCategoriesRefresh();
+          }
+        }
+      } else {
+        if (event.clientX < middleLineHorizontal) {
+          categoryParentElement.insertBefore(dragged, catElement.nextSibling);
+          nestedCategoriesRefresh();
+        } else {
+          catElement.querySelector(".nested").appendChild(dragged);
+          nestedCategoriesRefresh();
+        }
+      }
+    });
+
   catElement.addEventListener("dragover", (event) => {
-    event.preventDefault();
     const dragged = document.querySelector(".dragging");
-    const rect = catElement.getBoundingClientRect();
-
-    // const x = event.clientX - rect.x;
-    // const y = event.clientY - rect.y;
-    const middleLine = (rect.y + rect.bottom) / 2;
-
-    if (event.clientY < middleLine) {
-      categoryManagerList.insertBefore(dragged, catElement);
-    } else {
-      categoryManagerList.insertBefore(dragged, catElement.nextSibling);
+    const categoryParentElement = catElement.parentElement;
+    if (
+      event.target.nodeName === "UL" &&
+      event.target !== categoryManagerList
+    ) {
+      categoryParentElement.insertBefore(dragged, catElement.nextSibling);
+      nestedCategoriesRefresh();
     }
   });
 }
@@ -263,9 +342,8 @@ function categoryRename(button) {
     }
     categoryElement.removeChild(btninput);
 
-    const categoryElementName = document.createElement("span");
+    const categoryElementName = categoryElement.querySelector("span");
     categoryElementName.textContent = newCategoryName;
-    categoryElement.prepend(categoryElementName);
 
     const checkbox = document.createElement("i");
     checkbox.classList.add("fa-regular", "fa-square-check");
@@ -281,15 +359,18 @@ function categoryRename(button) {
 
 function categoryDelete(button) {
   const categoryElement = button.parentElement.parentElement;
-  const categoryName = button.parentElement.parentElement.textContent;
+  const categoryName =
+    button.parentElement.parentElement.querySelector("span").textContent;
   const categoryIndex = categoryData.findIndex(
     (obj) => obj.name === categoryName
   );
+  const categoryParentElement = categoryElement.parentElement.parentElement;
 
   // ADD POP UP TO CONFIRM DECISION, DELETES ALL SESSIONS ASSOCIATED WITH CATEGORY
   sessionData[categoryData[categoryIndex].id] = [];
   categoryData.splice(categoryIndex, 1);
-  categoryManagerList.removeChild(categoryElement);
+  categoryParentElement.removeChild(categoryElement.parentElement);
+  nestedCategoriesRefresh();
 }
 
 function categoryManagerToggle() {
@@ -328,13 +409,24 @@ categoryAddbtn.onclick = () => {
   );
 };
 
-function toglersRefresh() {
-  const toggler = document.querySelectorAll(".caret");
-
-  for (let i = 0; i < toggler.length; i++) {
-    toggler[i].addEventListener("click", function () {
-      this.parentElement.querySelector(".nested").classList.toggle("active");
-      this.classList.toggle("caret-down");
-    });
+function nestedCategoriesRefresh() {
+  function checkNested(parentElement) {
+    for (let i = 0; i < parentElement.children.length; i++) {
+      const catElement = parentElement.children[i];
+      if (catElement.querySelector(".nested")) {
+        // added cuz the add category button can't complete the checks below
+        if (catElement.querySelector(".nested").querySelector("li")) {
+          checkNested(catElement.querySelector(".nested"));
+          catElement
+            .querySelector(".category-manager-element")
+            .firstChild.classList.add("caret");
+        } else {
+          catElement
+            .querySelector(".category-manager-element")
+            .firstChild.classList.remove("caret");
+        }
+      }
+    }
   }
+  checkNested(categoryManagerList);
 }
