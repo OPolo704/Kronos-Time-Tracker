@@ -45,7 +45,9 @@ function cycleHSL(color) {
 }
 
 let id = JSON.parse(sessionStorage.getItem("id")) || 1;
-let categoryData = JSON.parse(sessionStorage.getItem("categoryData")) || [];
+let categoryData =
+  initializeCategoryData(JSON.parse(sessionStorage.getItem("categoryData"))) ||
+  [];
 let sessionData = initializeSessionData(
   JSON.parse(sessionStorage.getItem("sessionData"))
 ) || [[]];
@@ -55,11 +57,42 @@ const unsortedCat = {
   color: "#EAEAEA",
 };
 
+function findCategory(categoryArray, categoryName) {
+  for (let i = 0; i < categoryArray.length; i++) {
+    if (categoryArray[i].name === categoryName) {
+      return categoryArray[i];
+    } else if (categoryArray[i].subCategories.length !== 0) {
+      const result = findCategory(categoryArray[i].subCategories, categoryName);
+      if (result !== null) {
+        return result;
+      }
+    }
+  }
+  return null;
+}
+
+function findParentCategory(category, categoryName) {
+  for (let i = 0; i < category.subCategories.length; i++) {
+    if (category.subCategories[i].name === categoryName) {
+      return category;
+    } else if (category.subCategories[i].subCategories.length !== 0) {
+      const result = findParentCategory(
+        category.subCategories[i],
+        categoryName
+      );
+      if (result !== null) {
+        return result;
+      }
+    }
+  }
+  return null;
+}
+
 function initializeSessionData(sessionData) {
   if (!sessionData) {
     return null;
   }
-  // when I start implementing subcats make a recursive function for initializing each of the arrays inside
+
   sessionData.forEach((category) => {
     category.forEach((sessionObject) => {
       const session = new Session();
@@ -72,6 +105,28 @@ function initializeSessionData(sessionData) {
     });
   });
   return sessionData;
+}
+
+function initializeCategoryData(categoryArray) {
+  if (categoryArray.length === 0 || !categoryArray) {
+    return null;
+  }
+
+  categoryArray.forEach((categoryObject) => {
+    const category = new Category();
+    category.name = categoryObject.name;
+    category.subCategories = initializeCategoryData(
+      categoryObject.subCategories
+    );
+    category.activity = categoryObject.activity;
+    category.color = categoryObject.color;
+    category.id = categoryObject.id;
+
+    categoryArray.push(category);
+    categoryArray.shift();
+  });
+
+  return categoryArray;
 }
 
 function uploadSessionStorage() {
