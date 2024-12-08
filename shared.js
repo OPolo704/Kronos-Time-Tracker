@@ -27,7 +27,9 @@ class Category {
     this.activity = true;
     this.color = "hsl(" + cycleHSL((id - 1) * 207) + " 68 81)";
     this.id = id;
-    sessionData[this.id] = [];
+    if (!sessionData[this.id]) {
+      sessionData[this.id] = [];
+    }
     id++;
   }
 
@@ -45,12 +47,12 @@ function cycleHSL(color) {
 }
 
 let id = JSON.parse(sessionStorage.getItem("id")) || 1;
-let categoryData =
-  initializeCategoryData(JSON.parse(sessionStorage.getItem("categoryData"))) ||
-  [];
 let sessionData = initializeSessionData(
   JSON.parse(sessionStorage.getItem("sessionData"))
 ) || [[]];
+let categoryData =
+  initializeCategoryData(JSON.parse(sessionStorage.getItem("categoryData"))) ||
+  [];
 
 const unsortedCat = {
   name: "Unsorted",
@@ -108,7 +110,7 @@ function initializeSessionData(sessionData) {
 }
 
 function initializeCategoryData(categoryArray) {
-  if (categoryArray.length === 0 || !categoryArray) {
+  if (!categoryArray) {
     return null;
   }
 

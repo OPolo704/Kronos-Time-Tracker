@@ -1,5 +1,4 @@
-let viewedCategories =
-  JSON.parse(sessionStorage.getItem("viewedCategories")) || [];
+let viewedCategories = [];
 
 // STAT CALCULATION
 
@@ -109,9 +108,10 @@ const categoryManager = document.querySelector(".category-manager");
 const categoryManagerList = document.querySelector(".category-manager-list");
 
 printCategories();
-createCategoryManagerList();
+createCategoryManagerList(categoryData, categoryManagerList);
+nestedCategoriesRefresh();
 
-function createCategoryManagerElement(cat) {
+function createCategoryManagerElement(cat, listElement) {
   const catElement = document.createElement("li");
   const catElementDetails = document.createElement("div");
   const catElementName = document.createElement("span");
@@ -127,11 +127,7 @@ function createCategoryManagerElement(cat) {
   };
 
   const checkbox = document.createElement("i");
-  if (viewedCategories.some((obj) => obj.id === cat.id)) {
-    checkbox.classList.add("fa-regular", "fa-square-check");
-  } else {
-    checkbox.classList.add("fa-regular", "fa-square");
-  }
+  checkbox.classList.add("fa-regular", "fa-square");
   catElementName.appendChild(checkbox);
   catElementName.onclick = (event) => {
     categoryToggleView(event.currentTarget);
@@ -175,12 +171,19 @@ function createCategoryManagerElement(cat) {
   const subCategoryList = document.createElement("ul");
   subCategoryList.classList.add("nested");
   subCategoryList.classList.add("active");
+  if (cat.subCategories.length !== 0) {
+    createCategoryManagerList(cat.subCategories, subCategoryList);
+  }
   catElement.appendChild(subCategoryList);
 
-  categoryManagerList.insertBefore(
-    catElement,
-    document.querySelector(".category-add-btn")
-  );
+  if (listElement === categoryManagerList) {
+    listElement.insertBefore(
+      catElement,
+      document.querySelector(".category-add-btn")
+    );
+  } else {
+    listElement.appendChild(catElement);
+  }
 
   catElement.querySelector(".category-manager-element").draggable = true;
   catElement
@@ -410,19 +413,30 @@ function createCategoryManagerElement(cat) {
 }
 
 function updateViewedCategories() {
-  // change to use a new findCategory function which also goes through subcats, replace any instance of categoryData.find with it
-  // for the function leverage the fact that the list is in order and you can find the parent categories by looking at the element parent in the html
-  viewedCategories = [];
-  for (let i = 0; i < categoryManagerList.children.length - 1; i++) {
-    const categoryName = categoryManagerList.children[i].textContent;
-    if (categoryManagerList.children[i].querySelector(".fa-square-check")) {
-      viewedCategories.push(
-        categoryData.find((obj) => obj.name === categoryName)
-      );
+  function checkCategoryArray(listElement) {
+    // if I ever want to make my code cleaner, move category add btn out of the manager list and look how everything becomes 10x cleaner
+    let length = listElement.children.length;
+    if (listElement === categoryManagerList) {
+      length--;
+    }
+    for (let i = 0; i < length; i++) {
+      if (
+        listElement.children[i]
+          .querySelector("div")
+          .querySelector(".fa-square-check")
+      ) {
+        const categoryName =
+          listElement.children[i].querySelector("div").textContent;
+        viewedCategories.push(findCategory(categoryData, categoryName));
+      } else if (
+        listElement.children[i].querySelector("ul").children.length > 0
+      ) {
+        checkCategoryArray(listElement.children[i].querySelector("ul"));
+      }
     }
   }
-
-  sessionStorage.setItem("viewedCategories", JSON.stringify(viewedCategories));
+  viewedCategories = [];
+  checkCategoryArray(categoryManagerList);
 }
 
 function categoryToggleView(button) {
@@ -525,16 +539,16 @@ function categoryManagerClose() {
   categoryManagerToggle();
 }
 
-function createCategoryManagerList() {
-  categoryData.forEach((cat) => {
-    createCategoryManagerElement(cat);
+function createCategoryManagerList(categoryArray, categoryArrayElement) {
+  categoryArray.forEach((cat) => {
+    createCategoryManagerElement(cat, categoryArrayElement);
   });
 }
 
 categoryAddbtn.onclick = () => {
   const newCategory = new Category("");
   categoryData.push(newCategory);
-  createCategoryManagerElement(newCategory);
+  createCategoryManagerElement(newCategory, categoryManagerList);
   categoryRename(
     categoryAddbtn.previousSibling.querySelector(".fa-pen-to-square")
   );

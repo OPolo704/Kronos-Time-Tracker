@@ -18,10 +18,11 @@ STATS
 colors changeable by clicking on colorbox and dragging a hue slider 👨‍💻
 maybe lower brightness of color when clicking
 ellipsis on long text that overflows like WWWWWWWWWWWw
-add presets for stat viewing
+add presets for stat viewing, top preset becomes default
 data export options
 CATEGORY MANAGER
 automatically uncheck main category if any one of the subcategories is disabled, enable all subcats if main cat is enabled
+for the above feature, make subcategories' checkbox lower opacity to show that they're not individually controllable, only by parentcat
 unselect all button
 addbtn add default name when empty
 make it so that id for newcat is also decided by first checking for empty arrays in sessionData and using them thus reusing some of the old ids
