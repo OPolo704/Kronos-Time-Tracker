@@ -19,6 +19,7 @@ colors changeable by clicking on colorbox and dragging a hue slider 👨‍💻
 maybe lower brightness of color when clicking
 ellipsis on long text that overflows like WWWWWWWWWWWw
 add presets for stat viewing, top preset becomes default
+with the presets, also add date select --> date select a range of days and it will display the data for those days, maybe quick settings like (last) day, week, month or specific months (mar, feb..)
 data export options
 CATEGORY MANAGER
 automatically uncheck main category if any one of the subcategories is disabled, enable all subcats if main cat is enabled
@@ -29,8 +30,11 @@ make it so that id for newcat is also decided by first checking for empty arrays
 are you sure you want to delete category and all the sessions that are part of it? message
 do something about untracked category & unsorted
 on rename maintain check box state
+limit amount of branching? 6 nested cats?
 
 CALENDAR
+REPLACE .FIND WITH FINDCATEGORY() AND ALL OTHER SUBCATEGORY ADDITIONS || LAST BIG THING 👨‍💻
+in the sessiondata foreach in calendar.js check for empty array at index maybe
 maybe change date select for a month calendar and/or ability to type in date similar to activity select
 add for desktop a week and maybe month view option
 do something about overlap?

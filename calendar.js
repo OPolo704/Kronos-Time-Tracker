@@ -14,7 +14,7 @@ sessionData.forEach((catSessions, index) => {
   if (index === 0) {
     cat = unsortedCat;
   } else {
-    cat = categoryData.find((cat) => cat.id === index);
+    cat = findCategoryByID(categoryData, index);
   }
 
   catSessions.forEach((session) => {

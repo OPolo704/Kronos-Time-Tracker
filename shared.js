@@ -73,6 +73,24 @@ function findCategory(categoryArray, categoryName) {
   return null;
 }
 
+// in the future change everything to id references
+function findCategoryByID(categoryArray, categoryID) {
+  for (let i = 0; i < categoryArray.length; i++) {
+    if (categoryArray[i].id === categoryID) {
+      return categoryArray[i];
+    } else if (categoryArray[i].subCategories.length !== 0) {
+      const result = findCategoryByID(
+        categoryArray[i].subCategories,
+        categoryID
+      );
+      if (result !== null) {
+        return result;
+      }
+    }
+  }
+  return null;
+}
+
 function findParentCategory(category, categoryName) {
   for (let i = 0; i < category.subCategories.length; i++) {
     if (category.subCategories[i].name === categoryName) {
