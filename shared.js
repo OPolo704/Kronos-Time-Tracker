@@ -59,6 +59,15 @@ const unsortedCat = {
   color: "#EAEAEA",
 };
 
+function forEachCategory(categoryArray, forEachFunc) {
+  for (let i = 0; i < categoryArray.length; i++) {
+    forEachFunc(categoryArray[i]);
+    if (categoryArray[i].subCategories.length !== 0) {
+      forEachCategory(categoryArray[i].subCategories, forEachFunc);
+    }
+  }
+}
+
 function findCategory(categoryArray, categoryName) {
   for (let i = 0; i < categoryArray.length; i++) {
     if (categoryArray[i].name === categoryName) {

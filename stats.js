@@ -175,15 +175,7 @@ function createCategoryManagerElement(cat, listElement) {
     createCategoryManagerList(cat.subCategories, subCategoryList);
   }
   catElement.appendChild(subCategoryList);
-
-  if (listElement === categoryManagerList) {
-    listElement.insertBefore(
-      catElement,
-      document.querySelector(".category-add-btn")
-    );
-  } else {
-    listElement.appendChild(catElement);
-  }
+  listElement.appendChild(catElement);
 
   catElement.querySelector(".category-manager-element").draggable = true;
   catElement
@@ -200,136 +192,61 @@ function createCategoryManagerElement(cat, listElement) {
     event.stopPropagation(); // this shit fucked me up
     catElement.classList.remove("dragging");
 
-    if (
-      catElement.nextSibling === categoryAddbtn ||
-      catElement.nextSibling === null
-    ) {
-      const parentCategory = (() => {
-        for (let i = 0; i < categoryData.length; i++) {
-          if (
-            categoryData[i].name ===
+    const parentCategory = (() => {
+      for (let i = 0; i < categoryData.length; i++) {
+        if (
+          categoryData[i].name === catElement.querySelector("span").textContent
+        ) {
+          return categoryData;
+        } else if (categoryData[i].subCategories.length !== 0) {
+          const result = findParentCategory(
+            categoryData[i],
             catElement.querySelector("span").textContent
-          ) {
-            return categoryData;
-          } else if (categoryData[i].subCategories.length !== 0) {
-            const result = findParentCategory(
-              categoryData[i],
-              catElement.querySelector("span").textContent
-            );
-            if (result !== null) {
-              return result;
-            }
-          }
-        }
-        return null;
-      })();
-
-      let categoryObject;
-      if (parentCategory === categoryData) {
-        const categoryIndex = categoryData.findIndex(
-          (category) => category.name === catElement.textContent
-        );
-
-        categoryObject = categoryData.splice(categoryIndex, 1)[0];
-      } else {
-        const categoryIndex = parentCategory.subCategories.findIndex(
-          (category) => category.name === catElement.textContent
-        );
-
-        categoryObject = parentCategory.subCategories.splice(
-          categoryIndex,
-          1
-        )[0];
-      }
-
-      if (catElement.parentElement === categoryManagerList) {
-        categoryData.push(categoryObject);
-      } else {
-        const newParentCategoryName =
-          catElement.parentElement.parentElement.querySelector(
-            "span"
-          ).textContent;
-        const newParentCategory = findCategory(
-          categoryData,
-          newParentCategoryName
-        );
-        newParentCategory.subCategories.push(categoryObject);
-      }
-    } else {
-      // other to-do thing is to have the actual initial creation of the catmanagerlist generate subcategories
-      const parentCategory = (() => {
-        for (let i = 0; i < categoryData.length; i++) {
-          if (
-            categoryData[i].name ===
-            catElement.querySelector("span").textContent
-          ) {
-            return categoryData;
-          } else if (categoryData[i].subCategories.length !== 0) {
-            const result = findParentCategory(
-              categoryData[i],
-              catElement.querySelector("span").textContent
-            );
-
-            if (result !== null) {
-              return result;
-            }
-          }
-        }
-        return null;
-      })();
-
-      let categoryObject;
-      if (parentCategory === categoryData) {
-        const categoryIndex = categoryData.findIndex(
-          (category) => category.name === catElement.textContent
-        );
-
-        categoryObject = categoryData.splice(categoryIndex, 1)[0];
-      } else {
-        const categoryIndex = parentCategory.subCategories.findIndex(
-          (category) => category.name === catElement.textContent
-        );
-
-        categoryObject = parentCategory.subCategories.splice(
-          categoryIndex,
-          1
-        )[0];
-      }
-
-      if (catElement.parentElement === categoryManagerList) {
-        const categoryBeforeIndex = categoryData.findIndex((element) => {
-          return (
-            element.name ===
-            catElement.nextSibling.querySelector("span").textContent
           );
-        });
-
-        categoryData.splice(categoryBeforeIndex, 0, categoryObject);
-      } else {
-        const newParentCategoryName =
-          catElement.parentElement.parentElement.querySelector(
-            "span"
-          ).textContent;
-        const newParentCategory = findCategory(
-          categoryData,
-          newParentCategoryName
-        );
-
-        const categoryBeforeIndex = newParentCategory.subCategories.findIndex(
-          (element) => {
-            return (
-              element.name ===
-              catElement.nextSibling.querySelector("span").textContent
-            );
+          if (result !== null) {
+            return result;
           }
-        );
-
-        newParentCategory.subCategories.splice(
-          categoryBeforeIndex,
-          0,
-          categoryObject
-        );
+        }
       }
+      return null;
+    })();
+
+    let categoryObject;
+    if (parentCategory === categoryData) {
+      const categoryIndex = categoryData.findIndex(
+        (category) => category.name === catElement.textContent
+      );
+
+      categoryObject = categoryData.splice(categoryIndex, 1)[0];
+    } else {
+      const categoryIndex = parentCategory.subCategories.findIndex(
+        (category) => category.name === catElement.textContent
+      );
+
+      categoryObject = parentCategory.subCategories.splice(categoryIndex, 1)[0];
+    }
+
+    if (catElement.parentElement === categoryManagerList) {
+      const categoryIndex = [...categoryManagerList.children].indexOf(
+        catElement
+      );
+
+      categoryData.splice(categoryIndex, 0, categoryObject);
+    } else {
+      const newParentCategoryName =
+        catElement.parentElement.parentElement.querySelector(
+          "span"
+        ).textContent;
+      const newParentCategory = findCategory(
+        categoryData,
+        newParentCategoryName
+      );
+
+      const categoryIndex = [...catElement.parentElement.children].indexOf(
+        catElement
+      );
+
+      newParentCategory.subCategories.splice(categoryIndex, 0, categoryObject);
     }
   });
 
@@ -385,7 +302,7 @@ function createCategoryManagerElement(cat, listElement) {
         }
       } else {
         if (event.clientX < middleLineHorizontal) {
-          categoryParentElement.insertBefore(dragged, catElement.nextSibling);
+          categoryParentElement.insertBefore(dragged, catElement.nextSibling); // works even when there is no next sibling since it'd be null and insertBefore null defaults to inserting at end
           nestedCategoriesRefresh();
         } else {
           catElement
@@ -414,11 +331,7 @@ function createCategoryManagerElement(cat, listElement) {
 
 function updateViewedCategories() {
   function checkCategoryArray(listElement) {
-    // if I ever want to make my code cleaner, move category add btn out of the manager list and look how everything becomes 10x cleaner
     let length = listElement.children.length;
-    if (listElement === categoryManagerList) {
-      length--;
-    }
     for (let i = 0; i < length; i++) {
       if (
         listElement.children[i]
@@ -452,7 +365,7 @@ function categoryToggleView(button) {
 function categoryToggleActivity(button) {
   const categoryName = button.parentElement.parentElement.textContent;
 
-  const category = categoryData.find((obj) => obj.name === categoryName);
+  const category = findCategory(categoryData, categoryName);
   if (category.activity) {
     button.classList.replace("fa-eye", "fa-eye-slash");
     category.activity = false;
@@ -497,7 +410,7 @@ function categoryRename(button) {
       categoryToggleView(event.currentTarget);
     };
 
-    const activity = categoryData.find((obj) => obj.name === categoryName);
+    const activity = findCategory(categoryData, categoryName);
     activity.name = newCategoryName;
   });
 }
@@ -550,7 +463,7 @@ categoryAddbtn.onclick = () => {
   categoryData.push(newCategory);
   createCategoryManagerElement(newCategory, categoryManagerList);
   categoryRename(
-    categoryAddbtn.previousSibling.querySelector(".fa-pen-to-square")
+    categoryManagerList.lastElementChild.querySelector(".fa-pen-to-square")
   );
 };
 

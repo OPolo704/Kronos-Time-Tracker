@@ -6,7 +6,7 @@ const activityAddbtn = document.querySelector(".activity-add-btn");
 
 // print activity list
 if (categoryData) {
-  categoryData.forEach((cat) => {
+  forEachCategory(categoryData, (cat) => {
     if (cat.activity) {
       const newbtn = document.createElement("button");
       newbtn.textContent = cat.name;
@@ -75,8 +75,8 @@ function finalizeButton(newbtn) {
   }
 }
 
-function activitySelect(category) {
-  activity = categoryData.find((obj) => obj.name === category);
+function activitySelect(categoryName) {
+  activity = findCategory(categoryData, categoryName);
 
   selectedActivity = activity;
   activitybtn.textContent = selectedActivity.name;
