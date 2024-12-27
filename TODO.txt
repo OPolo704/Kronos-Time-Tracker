@@ -32,10 +32,12 @@ make it so that id for newcat is also decided by first checking for empty arrays
 are you sure you want to delete category and all the sessions that are part of it? message
 do something about untracked category & unsorted
 on rename maintain check box state
-limit amount of branching? 6 nested cats?
+limit amount of branching? 6 nested cats? - or make it so that when it going over the right margin it stops indenting each subcat
 
 CALENDAR
 REPLACE .FIND WITH FINDCATEGORY() AND ALL OTHER SUBCATEGORY ADDITIONS || LAST BIG THING 👨‍💻
+make number of days accurate to the months' day count
+show day of the week to the left of the date select
 in the sessiondata foreach in calendar.js check for empty array at index maybe
 maybe change date select for a month calendar and/or ability to type in date similar to activity select
 add for desktop a week and maybe month view option

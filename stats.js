@@ -248,6 +248,31 @@ function createCategoryManagerElement(cat, listElement) {
 
       newParentCategory.subCategories.splice(categoryIndex, 0, categoryObject);
     }
+
+    if (catElement.parentElement !== categoryManagerList) {
+      if (
+        catElement.parentElement.previousSibling.querySelector(
+          ".fa-square-check"
+        )
+      ) {
+        catElementName
+          .querySelector("i")
+          .classList.replace("fa-square", "fa-square-check");
+        catElementName.querySelector("i").style.opacity = 0.5;
+        catElementName.onclick = "";
+      } else {
+        catElementName.querySelector("i").style.opacity = 0.8;
+        catElementName.onclick = (event) => {
+          categoryToggleView(event.currentTarget);
+        };
+      }
+    } else {
+      // really annoying how I can't prevent the redundancy...
+      catElementName.querySelector("i").style.opacity = 0.8;
+      catElementName.onclick = (event) => {
+        categoryToggleView(event.currentTarget);
+      };
+    }
   });
 
   catElement
@@ -357,8 +382,32 @@ function categoryToggleView(button) {
 
   if (icon.classList.contains("fa-square-check")) {
     icon.classList.replace("fa-square-check", "fa-square");
+
+    const subCategorySquareCheckIcons =
+      button.parentElement.nextSibling.querySelectorAll(".fa-square-check");
+    for (let i = 0; i < subCategorySquareCheckIcons.length; i++) {
+      subCategorySquareCheckIcons[i].style.opacity = 0.8;
+      subCategorySquareCheckIcons[i].parentElement.onclick = (event) => {
+        categoryToggleView(event.currentTarget);
+      };
+    }
   } else {
     icon.classList.replace("fa-square", "fa-square-check");
+
+    const subCategorySquareIcons =
+      button.parentElement.nextSibling.querySelectorAll(".fa-square");
+    for (let i = 0; i < subCategorySquareIcons.length; i++) {
+      subCategorySquareIcons[i].classList.replace(
+        "fa-square",
+        "fa-square-check"
+      );
+    }
+    const subCategorySquareCheckIcons =
+      button.parentElement.nextSibling.querySelectorAll(".fa-square-check");
+    for (let i = 0; i < subCategorySquareCheckIcons.length; i++) {
+      subCategorySquareCheckIcons[i].style.opacity = 0.5;
+      subCategorySquareCheckIcons[i].parentElement.onclick = "";
+    }
   }
 }
 
@@ -471,18 +520,15 @@ function nestedCategoriesRefresh() {
   function checkNested(parentElement) {
     for (let i = 0; i < parentElement.children.length; i++) {
       const catElement = parentElement.children[i];
-      if (catElement.querySelector(".nested")) {
-        // added cuz the add category button can't complete the checks below
-        if (catElement.querySelector(".nested").querySelector("li")) {
-          checkNested(catElement.querySelector(".nested"));
-          catElement
-            .querySelector(".category-manager-element")
-            .firstChild.classList.add("caret");
-        } else {
-          catElement
-            .querySelector(".category-manager-element")
-            .firstChild.classList.remove("caret");
-        }
+      if (catElement.querySelector(".nested").querySelector("li")) {
+        checkNested(catElement.querySelector(".nested"));
+        catElement
+          .querySelector(".category-manager-element")
+          .firstChild.classList.add("caret");
+      } else {
+        catElement
+          .querySelector(".category-manager-element")
+          .firstChild.classList.remove("caret");
       }
     }
   }
