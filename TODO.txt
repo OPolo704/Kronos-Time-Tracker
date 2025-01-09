@@ -1,7 +1,6 @@
 upload everything to localstorage not just sessionstorage since syncing is manual now
 
 LOOKS BETTER WITH PREVIOUS BACKGROUND COLOR, ADJUST
-instead of having so many categoryFind and findbyid and shit functions, make a foreach that works recursively ✅
 
 MAIN
 big one - minimum session length of like 2min
@@ -24,8 +23,6 @@ with the presets, also add date select --> date select a range of days and it wi
 data export options
 CATEGORY MANAGER
 you can make any change to a category more efficient by finding the category using its parent elements instead of findCategory()
-automatically uncheck main category if any one of the subcategories is disabled, enable all subcats if main cat is enabled 👨‍💻
-for the above feature, make subcategories' checkbox lower opacity to show that they're not individually controllable, only by parentcat
 unselect all button
 addbtn add default name when empty
 make it so that id for newcat is also decided by first checking for empty arrays in sessionData and using them thus reusing some of the old ids
@@ -35,7 +32,6 @@ on rename maintain check box state
 limit amount of branching? 6 nested cats? - or make it so that when it going over the right margin it stops indenting each subcat
 
 CALENDAR
-REPLACE .FIND WITH FINDCATEGORY() AND ALL OTHER SUBCATEGORY ADDITIONS || LAST BIG THING 👨‍💻
 make number of days accurate to the months' day count
 show day of the week to the left of the date select
 in the sessiondata foreach in calendar.js check for empty array at index maybe

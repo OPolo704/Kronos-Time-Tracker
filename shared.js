@@ -50,6 +50,7 @@ let id = JSON.parse(sessionStorage.getItem("id")) || 1;
 let sessionData = initializeSessionData(
   JSON.parse(sessionStorage.getItem("sessionData"))
 ) || [[]];
+console.log(JSON.parse(sessionStorage.getItem("categoryData")));
 let categoryData =
   initializeCategoryData(JSON.parse(sessionStorage.getItem("categoryData"))) ||
   [];
@@ -141,7 +142,8 @@ function initializeCategoryData(categoryArray) {
     return null;
   }
 
-  categoryArray.forEach((categoryObject) => {
+  for (let i = 0; i < categoryArray.length; i++) {
+    const categoryObject = categoryArray[0];
     const category = new Category();
     category.name = categoryObject.name;
     category.subCategories = initializeCategoryData(
@@ -153,7 +155,7 @@ function initializeCategoryData(categoryArray) {
 
     categoryArray.push(category);
     categoryArray.shift();
-  });
+  }
 
   return categoryArray;
 }
