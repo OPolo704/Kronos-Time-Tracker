@@ -124,7 +124,10 @@ function stopTimer() {
   const splittedSession = splitSession(newSession);
 
   for (let i = splittedSession.length - 1; i >= 0; i--) {
-    sessionData[newSessionID].push(splittedSession[i]);
+    // min session length of 5min
+    if (splittedSession[i].getDuration() > 300000) {
+      sessionData[newSessionID].push(splittedSession[i]);
+    }
   }
 }
 

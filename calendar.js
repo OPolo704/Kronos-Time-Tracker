@@ -4,9 +4,13 @@ const daybtn = document.querySelector(".day-btn");
 const dateIncreasebtn = document.querySelector(".date-increase");
 const dateDecreasebtn = document.querySelector(".date-decrease");
 const timeline = document.querySelector(".timeline");
+const zoomBox = document.querySelector(".zoom-box");
+const zoomInbtn = document.querySelector(".zoom-in");
+const zoomOutbtn = document.querySelector(".zoom-out");
 
 let chronologicalData = [];
 let currentDate = [2024, 9, 11];
+let zoomLevel = 0;
 
 sessionData.forEach((catSessions, index) => {
   // inserts sessions to the chronologicalData array
@@ -135,56 +139,72 @@ function printDay() {
 
   if (yearSessions.length > 0) {
     const daySessions = yearSessions[currentDate[1] - 1][currentDate[2] - 1];
+    let minUnit;
+    let minLength;
+
+    switch (zoomLevel) {
+      case 0:
+        minUnit = 1;
+        minLength = 25;
+        break;
+      case 1:
+        minUnit = 3;
+        minLength = 9;
+        break;
+      case 2:
+        minUnit = 5;
+        minLength = 5;
+        break;
+    }
 
     daySessions.forEach((session) => {
-      const hourLine =
-        timeline.querySelectorAll(".hour-line")[session.startTime.getHours()];
+      if (session.getDuration() > minLength * 60000) {
+        const hourLine =
+          timeline.querySelectorAll(".hour-line")[session.startTime.getHours()];
+        const sessionBlock = document.createElement("div");
+        sessionBlock.classList.add("timeline-session");
 
-      const sessionBlock = document.createElement("div");
-      sessionBlock.classList.add("timeline-session");
+        sessionBlock.style.top =
+          Math.floor(minUnit * session.startTime.getMinutes()) + "px";
+        sessionBlock.style.height =
+          Math.floor(minUnit * (session.getDuration() / 60000)) + "px";
+        sessionBlock.style.backgroundColor = session.category.color;
 
-      const minUnit = hourLine.offsetHeight / 60;
+        const top = document.createElement("div");
+        top.classList.add("top");
+        const category = document.createElement("div");
+        category.textContent = session.category.name;
+        const timeSpan = document.createElement("div");
+        timeSpan.textContent =
+          formatTime(session.startTime.getHours()) +
+          ":" +
+          formatTime(session.startTime.getMinutes()) +
+          "-" +
+          formatTime(session.endTime.getHours()) +
+          ":" +
+          formatTime(session.endTime.getMinutes());
+        top.appendChild(category);
+        top.appendChild(timeSpan);
 
-      sessionBlock.style.top =
-        Math.floor(minUnit * session.startTime.getMinutes()) + "px";
-      sessionBlock.style.height =
-        Math.floor(minUnit * (session.getDuration() / 60000)) + "px";
-      sessionBlock.style.backgroundColor = session.category.color;
+        const bottom = document.createElement("div");
+        bottom.classList.add("bottom");
+        const name = document.createElement("div");
+        name.textContent = session.name;
+        const duration = document.createElement("div");
+        duration.textContent =
+          Math.floor(session.getDuration() / 3600000) +
+          "h " +
+          Math.floor((session.getDuration() / 60000) % 60) +
+          "m";
+        duration.style.whiteSpace = "nowrap";
+        bottom.appendChild(name);
+        bottom.appendChild(duration);
 
-      const top = document.createElement("div");
-      top.classList.add("top");
-      const category = document.createElement("div");
-      category.textContent = session.category.name;
-      const timeSpan = document.createElement("div");
-      timeSpan.textContent =
-        formatTime(session.startTime.getHours()) +
-        ":" +
-        formatTime(session.startTime.getMinutes()) +
-        "-" +
-        formatTime(session.endTime.getHours()) +
-        ":" +
-        formatTime(session.endTime.getMinutes());
-      top.appendChild(category);
-      top.appendChild(timeSpan);
+        sessionBlock.appendChild(top);
+        sessionBlock.appendChild(bottom);
 
-      const bottom = document.createElement("div");
-      bottom.classList.add("bottom");
-      const name = document.createElement("div");
-      name.textContent = session.name;
-      const duration = document.createElement("div");
-      duration.textContent =
-        Math.floor(session.getDuration() / 3600000) +
-        "h " +
-        Math.floor((session.getDuration() / 60000) % 60) +
-        "m";
-      duration.style.whiteSpace = "nowrap";
-      bottom.appendChild(name);
-      bottom.appendChild(duration);
-
-      sessionBlock.appendChild(top);
-      sessionBlock.appendChild(bottom);
-
-      hourLine.appendChild(sessionBlock);
+        hourLine.appendChild(sessionBlock);
+      }
     });
   }
 }
@@ -264,3 +284,40 @@ dateDecreasebtn.onclick = () => {
   }
   printDay();
 };
+
+zoomInbtn.onclick = () => {
+  if (zoomLevel < 2) {
+    zoomLevel++;
+    updateZoomLevel();
+    printDay();
+  }
+};
+
+zoomOutbtn.onclick = () => {
+  if (zoomLevel > 0) {
+    zoomLevel--;
+    updateZoomLevel();
+    printDay();
+  }
+};
+
+function updateZoomLevel() {
+  const classtoadd = "zoomlevel" + zoomLevel;
+  console.log(classtoadd);
+  for (let i = 0; i < document.querySelectorAll(".hour-line").length; i++) {
+    const hourline = document.querySelectorAll(".hour-line")[i];
+    hourline.className = "hour-line";
+    hourline.classList.add(classtoadd);
+  }
+}
+
+// document.addEventListener("scroll", () => {
+//   if (window.scrollY + window.innerHeight >= document.scrollHeight) {
+//     zoomBox.classList.add("hidden");
+//     console.log("yo");
+//   } else {
+//     zoomBox.classList.remove("hidden");
+//     console.log("not yo");
+//   }
+// });
+// do this at some point and add a bottom shadow from the bottom when fully scrolled like in the figma

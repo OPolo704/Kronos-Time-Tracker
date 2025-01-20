@@ -163,7 +163,6 @@ function initializeCategoryData(categoryArray) {
 function uploadSessionStorage() {
   sessionStorage.setItem("sessionData", JSON.stringify(sessionData));
   sessionStorage.setItem("categoryData", JSON.stringify(categoryData));
-  sessionStorage.setItem("id", JSON.stringify(id));
 }
 
 // redirect buttons

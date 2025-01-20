@@ -5,6 +5,7 @@ LOOKS BETTER WITH PREVIOUS BACKGROUND COLOR, ADJUST
 MAIN
 big one - minimum session length of like 2min
 separate screen when a session is running which lets you change sessionName n shit
+warning when you try to end a session below 5min cuz of minimum session length
 sessionName distributed between all split sessions
 position i button absolutely
 get rid of highlight when clicking buttons
@@ -30,6 +31,7 @@ are you sure you want to delete category and all the sessions that are part of i
 do something about untracked category & unsorted
 on rename maintain check box state
 limit amount of branching? 6 nested cats? - or make it so that when it going over the right margin it stops indenting each subcat
+idea: new section that opens when you like hold on a category or something that lists all the previously recorded sessions of that cat
 
 CALENDAR
 make number of days accurate to the months' day count
