@@ -43,6 +43,8 @@ do something about overlap?
 add sessionblock detail window onclick 👨‍💻
 maybe change sessionblocks inside to a grid and do it so that when possible have top div and then bottom div elements position name on top of duration, but when no space have name and duration on the same row
 if I make a month view make it so that you can filter out by categories and see which days you've done x n such
+add drop shadow on hover to category edit also on click flip the arrow
+add warning when deleting a session
 
 general nice additions
 ensure hover functionality on everything

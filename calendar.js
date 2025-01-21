@@ -7,6 +7,8 @@ const timeline = document.querySelector(".timeline");
 const zoomBox = document.querySelector(".zoom-box");
 const zoomInbtn = document.querySelector(".zoom-in");
 const zoomOutbtn = document.querySelector(".zoom-out");
+const sessionEditPage = document.querySelector(".session-edit-page");
+const sessionEdit = document.querySelector(".session-edit");
 
 let chronologicalData = [];
 let currentDate = [2024, 9, 11];
@@ -157,12 +159,13 @@ function printDay() {
         break;
     }
 
-    daySessions.forEach((session) => {
+    daySessions.forEach((session, index) => {
       if (session.getDuration() > minLength * 60000) {
         const hourLine =
           timeline.querySelectorAll(".hour-line")[session.startTime.getHours()];
         const sessionBlock = document.createElement("div");
         sessionBlock.classList.add("timeline-session");
+        sessionBlock.setAttribute("data-sessionIndex", index);
 
         sessionBlock.style.top =
           Math.floor(minUnit * session.startTime.getMinutes()) + "px";
@@ -204,6 +207,27 @@ function printDay() {
         sessionBlock.appendChild(bottom);
 
         hourLine.appendChild(sessionBlock);
+
+        sessionBlock.onclick = () => {
+          sessionEditPage.classList.remove("hidden");
+          sessionEdit.style.backgroundColor = session.category.color;
+          document
+            .querySelector(".session-edit-category")
+            .querySelector("span").textContent = session.category.name;
+          document.querySelector(".session-edit-startTime-hours").textContent =
+            session.startTime.getHours();
+          document.querySelector(
+            ".session-edit-startTime-minutes"
+          ).textContent = session.startTime.getMinutes();
+          document.querySelector(".session-edit-endTime-hours").textContent =
+            session.endTime.getHours();
+          document.querySelector(".session-edit-endTime-minutes").textContent =
+            session.endTime.getMinutes();
+          document.querySelector(".session-edit-middle").textContent =
+            session.name;
+          document.querySelector(".session-edit-bottom").textContent =
+            duration.textContent;
+        };
       }
     });
   }
@@ -321,3 +345,9 @@ function updateZoomLevel() {
 //   }
 // });
 // do this at some point and add a bottom shadow from the bottom when fully scrolled like in the figma
+
+sessionEditPage.onclick = (event) => {
+  if (event.target === sessionEditPage) {
+    sessionEditPage.classList.add("hidden");
+  }
+};

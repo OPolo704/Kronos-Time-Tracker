@@ -564,19 +564,17 @@ li {
 
 .timeline {
   background-color: #f5f5f5;
-  height: 100vh;
+  height: calc(100vh - 71px);
   overflow-y: scroll;
   user-select: none;
-  padding-top: 71px;
+  margin-top: 71px;
 }
 
-.timeline,
 .date-list {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
 }
 
-.timeline::-webkit-scrollbar,
 .date-list::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
@@ -590,6 +588,10 @@ li {
   font-size: 1.2rem;
   color: rgba(146, 145, 145, 0.7);
   position: relative;
+}
+
+.hour-line:first-child {
+  border: none;
 }
 
 .zoomlevel0 {
@@ -634,6 +636,7 @@ li {
   flex-grow: 1;
   display: flex;
   align-items: end;
+  flex-direction: column;
 }
 
 .timeline-session .bottom div:first-child {
@@ -674,4 +677,70 @@ li {
   height: 58px;
   width: 58px;
   font-size: 2.5rem;
+  z-index: 10;
+}
+
+.session-edit-page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 15;
+}
+
+.session-edit {
+  width: 85%;
+  height: 580px;
+  border: 3px solid rgba(146, 145, 145, 0.7);
+  border-radius: 11px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: beige;
+  font-size: 1.6rem;
+  padding: 15px;
+}
+
+.session-edit-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.session-edit-category {
+  display: flex;
+  align-items: center;
+  font-size: 1.7rem;
+}
+
+.session-edit-category i {
+  font-size: 1rem;
+  margin-left: 5px;
+}
+
+.session-edit-time {
+  display: flex;
+}
+
+.session-edit-startTime,
+.session-edit-endTime {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.session-edit-middle {
+  font-size: 1.3rem;
+  margin-top: 20px;
+  flex-grow: 1;
+}
+
+.session-edit-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: end;
 }
