@@ -40,11 +40,13 @@ in the sessiondata foreach in calendar.js check for empty array at index maybe
 maybe change date select for a month calendar and/or ability to type in date similar to activity select
 add for desktop a week and maybe month view option
 do something about overlap?
-add sessionblock detail window onclick 👨‍💻
+add functionality to sessionEdit 👨‍💻
 maybe change sessionblocks inside to a grid and do it so that when possible have top div and then bottom div elements position name on top of duration, but when no space have name and duration on the same row
 if I make a month view make it so that you can filter out by categories and see which days you've done x n such
 add drop shadow on hover to category edit also on click flip the arrow
 add warning when deleting a session
+add drag functionality to change the time when editing a session
+
 
 general nice additions
 ensure hover functionality on everything

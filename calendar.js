@@ -9,6 +9,8 @@ const zoomInbtn = document.querySelector(".zoom-in");
 const zoomOutbtn = document.querySelector(".zoom-out");
 const sessionEditPage = document.querySelector(".session-edit-page");
 const sessionEdit = document.querySelector(".session-edit");
+const sessionEditbtn = document.querySelector(".fa-pen-to-square");
+const sessionDeletebtn = document.querySelector(".fa-trash");
 
 let chronologicalData = [];
 let currentDate = [2024, 9, 11];
@@ -225,8 +227,9 @@ function printDay() {
             session.endTime.getMinutes();
           document.querySelector(".session-edit-middle").textContent =
             session.name;
-          document.querySelector(".session-edit-bottom").textContent =
-            duration.textContent;
+          document
+            .querySelector(".session-edit-bottom")
+            .querySelector("span").textContent = duration.textContent;
         };
       }
     });
@@ -349,5 +352,34 @@ function updateZoomLevel() {
 sessionEditPage.onclick = (event) => {
   if (event.target === sessionEditPage) {
     sessionEditPage.classList.add("hidden");
+    if (document.querySelector(".edit")) {
+      toggleEdit();
+    }
   }
 };
+
+sessionEditbtn.onclick = toggleEdit;
+
+function toggleEdit() {
+  document.querySelector(".session-edit-category").classList.toggle("edit");
+  document.querySelector(".session-edit-time").classList.toggle("edit");
+  document.querySelector(".fa-pen-to-square").classList.toggle("edit");
+
+  const middle = document.querySelector(".session-edit-middle");
+  if (!middle.querySelector("textarea")) {
+    const nameTextArea = document.createElement("textarea");
+    nameTextArea.value = middle.textContent;
+    nameTextArea.setAttribute("spellcheck", "false");
+    middle.textContent = "";
+
+    nameTextArea.addEventListener("keypress", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        toggleEdit();
+      }
+    });
+    middle.appendChild(nameTextArea);
+  } else {
+    middle.textContent = middle.querySelector("textarea").value;
+  }
+}
