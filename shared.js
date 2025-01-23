@@ -57,6 +57,7 @@ let categoryData =
 const unsortedCat = {
   name: "Unsorted",
   color: "#EAEAEA",
+  id: 0,
 };
 
 function forEachCategory(categoryArray, forEachFunc) {

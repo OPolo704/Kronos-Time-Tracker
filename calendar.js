@@ -14,6 +14,7 @@ const sessionEditActivityList = document.querySelector(
 );
 const sessionEditbtn = document.querySelector(".fa-pen-to-square");
 const sessionDeletebtn = document.querySelector(".fa-trash");
+const sessionAddbtn = document.querySelector(".session-add-btn");
 
 let chronologicalData = [];
 let currentDate = [2024, 9, 11];
@@ -496,3 +497,35 @@ function toggleEdit() {
     printDay();
   }
 }
+
+sessionAddbtn.onclick = () => {
+  const newSesh = new Session();
+  newSesh.startTime = new Date();
+  newSesh.endTime = new Date();
+  newSesh.category = unsortedCat;
+  sessionData[0].push(newSesh);
+  daySessions.push(newSesh);
+  currentSessionIndex = daySessions.length - 1;
+  sessionEditPage.classList.remove("hidden");
+  sessionEdit.style.backgroundColor = unsortedCat.color;
+  sessionEditActivityList.style.backgroundColor = unsortedCat.color;
+
+  document
+    .querySelector(".session-edit-category")
+    .querySelector("span").textContent = unsortedCat.name;
+  document.querySelector(".session-edit-startTime-hours").textContent =
+    formatTime(newSesh.startTime.getHours());
+  document.querySelector(".session-edit-startTime-minutes").textContent =
+    formatTime(newSesh.startTime.getMinutes());
+
+  document.querySelector(".session-edit-endTime-hours").textContent =
+    formatTime(newSesh.endTime.getHours());
+  document.querySelector(".session-edit-endTime-minutes").textContent =
+    formatTime(newSesh.endTime.getMinutes());
+  document.querySelector(".session-edit-middle").textContent =
+    "Untitled Session";
+  document
+    .querySelector(".session-edit-bottom")
+    .querySelector("span").textContent = "0h 0m";
+  toggleEdit();
+};

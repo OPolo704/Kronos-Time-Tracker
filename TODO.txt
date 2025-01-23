@@ -42,7 +42,8 @@ add for desktop a week and maybe month view option
 do something about overlap?
 maybe change sessionblocks inside to a grid and do it so that when possible have top div and then bottom div elements position name on top of duration, but when no space have name and duration on the same row
 if I make a month view make it so that you can filter out by categories and see which days you've done x n such
-add checks for valid times when modifying time of session (starttime before endtime, valid time not 27:62)
+add checks for valid times when modifying time of session (starttime before endtime, valid time not 27:62, above min session time)
+when the edited session is below minimum session time, delete (with the warning ofc)
 refresh duration right after time change
 add warning when deleting a session
 add drag functionality to change the time when editing a session
