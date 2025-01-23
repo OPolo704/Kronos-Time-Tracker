@@ -706,7 +706,7 @@ li {
 }
 
 .session-edit {
-  width: 85%;
+  width: 90%;
   height: 580px;
   border: 3px solid rgba(146, 145, 145, 0.7);
   border-radius: 11px;
@@ -729,6 +729,7 @@ li {
   align-items: center;
   font-size: 1.7rem;
   border-radius: 11px;
+  position: relative;
 }
 
 .session-edit-category.edit {
@@ -740,6 +741,44 @@ li {
   font-size: 1rem;
   margin: 0px;
   margin-left: 5px;
+}
+
+.session-edit-category i.edit {
+  transform: rotate(180deg);
+}
+
+.session-edit-activity-list {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  z-index: 10;
+  top: 50px;
+  left: -5px;
+  width: 190px;
+  height: 375px;
+  background-color: #d9d9d9;
+  border: solid 3px rgba(146, 145, 145, 0.7);
+  border-radius: 11px;
+  overflow-y: auto;
+}
+
+.session-edit-activity-list button {
+  flex-shrink: 0;
+  border-radius: 0px;
+  box-shadow: none;
+  height: 50px;
+  border: none;
+  border-bottom: solid 3px #929191;
+  background-color: rgba(255, 255, 255, 0.6);
+  position: relative;
+}
+
+.session-edit-activity-list button div {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 20px;
+  height: 100%;
 }
 
 .session-edit-time {
@@ -761,6 +800,15 @@ li {
   display: flex;
   align-items: center;
   justify-content: end;
+}
+
+.session-edit-time input {
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  font-size: 1.6rem;
+  padding: 0;
+  text-align: right;
 }
 
 .session-edit-middle {

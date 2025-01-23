@@ -50,7 +50,6 @@ let id = JSON.parse(sessionStorage.getItem("id")) || 1;
 let sessionData = initializeSessionData(
   JSON.parse(sessionStorage.getItem("sessionData"))
 ) || [[]];
-console.log(JSON.parse(sessionStorage.getItem("categoryData")));
 let categoryData =
   initializeCategoryData(JSON.parse(sessionStorage.getItem("categoryData"))) ||
   [];
@@ -118,23 +117,25 @@ function findParentCategory(category, categoryName) {
   return null;
 }
 
-function initializeSessionData(sessionData) {
-  if (!sessionData) {
+function initializeSessionData(data) {
+  if (!data) {
     return null;
   }
 
-  sessionData.forEach((category) => {
-    category.forEach((sessionObject) => {
+  data.forEach((category) => {
+    const len = category.length;
+    for (let i = 0; i < len; i++) {
       const session = new Session();
-      session.name = sessionObject.name;
-      session.startTime = new Date(sessionObject.startTime);
-      session.endTime = new Date(sessionObject.endTime);
+      session.name = category[i].name;
+      session.startTime = new Date(category[i].startTime);
+      session.endTime = new Date(category[i].endTime);
 
       category.push(session);
-      category.shift();
-    });
+      // category.shift(); this was originally the plan but for some reason it doesn't work as intended and using these slow ass console logs that don't give me accurate information makes it imposible to know why
+    }
+    category.splice(0, len);
   });
-  return sessionData;
+  return data;
 }
 
 function initializeCategoryData(categoryArray) {

@@ -9,12 +9,17 @@ const zoomInbtn = document.querySelector(".zoom-in");
 const zoomOutbtn = document.querySelector(".zoom-out");
 const sessionEditPage = document.querySelector(".session-edit-page");
 const sessionEdit = document.querySelector(".session-edit");
+const sessionEditActivityList = document.querySelector(
+  ".session-edit-activity-list"
+);
 const sessionEditbtn = document.querySelector(".fa-pen-to-square");
 const sessionDeletebtn = document.querySelector(".fa-trash");
 
 let chronologicalData = [];
 let currentDate = [2024, 9, 11];
 let zoomLevel = 0;
+let daySessions;
+let currentSessionIndex = "";
 
 sessionData.forEach((catSessions, index) => {
   // inserts sessions to the chronologicalData array
@@ -43,6 +48,37 @@ sessionData.forEach((catSessions, index) => {
     ].push(session);
   });
 });
+
+if (categoryData) {
+  forEachCategory(categoryData, (cat) => {
+    if (cat.activity) {
+      const newbtn = document.createElement("button");
+      newbtn.textContent = cat.name;
+      newbtn.onclick = (event) => {
+        const currentSession = daySessions[currentSessionIndex];
+        const oldcat = currentSession.category;
+        currentSession.category = findCategoryByID(categoryData, cat.id);
+        sessionData[cat.id].push(currentSession);
+        sessionData[oldcat.id].splice(
+          sessionData[oldcat.id].indexOf(currentSession),
+          1
+        );
+        printDay();
+        sessionEdit.style.backgroundColor = cat.color;
+        sessionEditActivityList.style.backgroundColor = cat.color;
+        sessionEdit
+          .querySelector(".session-edit-category")
+          .querySelector("span").textContent = cat.name;
+      };
+
+      const colorDiv = document.createElement("div");
+      colorDiv.style.backgroundColor = cat.color;
+      newbtn.appendChild(colorDiv);
+
+      sessionEditActivityList.appendChild(newbtn);
+    }
+  });
+}
 
 createDateList();
 
@@ -142,7 +178,7 @@ function printDay() {
   ).sessions;
 
   if (yearSessions.length > 0) {
-    const daySessions = yearSessions[currentDate[1] - 1][currentDate[2] - 1];
+    daySessions = yearSessions[currentDate[1] - 1][currentDate[2] - 1];
     let minUnit;
     let minLength;
 
@@ -167,7 +203,6 @@ function printDay() {
           timeline.querySelectorAll(".hour-line")[session.startTime.getHours()];
         const sessionBlock = document.createElement("div");
         sessionBlock.classList.add("timeline-session");
-        sessionBlock.setAttribute("data-sessionIndex", index);
 
         sessionBlock.style.top =
           Math.floor(minUnit * session.startTime.getMinutes()) + "px";
@@ -213,23 +248,29 @@ function printDay() {
         sessionBlock.onclick = () => {
           sessionEditPage.classList.remove("hidden");
           sessionEdit.style.backgroundColor = session.category.color;
+          sessionEditActivityList.style.backgroundColor =
+            session.category.color;
+
           document
             .querySelector(".session-edit-category")
             .querySelector("span").textContent = session.category.name;
           document.querySelector(".session-edit-startTime-hours").textContent =
-            session.startTime.getHours();
+            formatTime(session.startTime.getHours());
           document.querySelector(
             ".session-edit-startTime-minutes"
-          ).textContent = session.startTime.getMinutes();
+          ).textContent = formatTime(session.startTime.getMinutes());
+
           document.querySelector(".session-edit-endTime-hours").textContent =
-            session.endTime.getHours();
+            formatTime(session.endTime.getHours());
           document.querySelector(".session-edit-endTime-minutes").textContent =
-            session.endTime.getMinutes();
+            formatTime(session.endTime.getMinutes());
           document.querySelector(".session-edit-middle").textContent =
             session.name;
           document
             .querySelector(".session-edit-bottom")
             .querySelector("span").textContent = duration.textContent;
+
+          currentSessionIndex = index;
         };
       }
     });
@@ -330,7 +371,6 @@ zoomOutbtn.onclick = () => {
 
 function updateZoomLevel() {
   const classtoadd = "zoomlevel" + zoomLevel;
-  console.log(classtoadd);
   for (let i = 0; i < document.querySelectorAll(".hour-line").length; i++) {
     const hourline = document.querySelectorAll(".hour-line")[i];
     hourline.className = "hour-line";
@@ -361,16 +401,27 @@ sessionEditPage.onclick = (event) => {
 sessionEditbtn.onclick = toggleEdit;
 
 function toggleEdit() {
-  document.querySelector(".session-edit-category").classList.toggle("edit");
-  document.querySelector(".session-edit-time").classList.toggle("edit");
+  const editCategory = document.querySelector(".session-edit-category");
+  const editTime = document.querySelector(".session-edit-time");
+
+  editCategory.classList.toggle("edit");
+  editCategory.querySelector("i").classList.toggle("hidden");
+  editTime.classList.toggle("edit");
   document.querySelector(".fa-pen-to-square").classList.toggle("edit");
 
   const middle = document.querySelector(".session-edit-middle");
+  const startTime = document.querySelector(".session-edit-startTime");
+  const endTime = document.querySelector(".session-edit-endTime");
   if (!middle.querySelector("textarea")) {
     const nameTextArea = document.createElement("textarea");
     nameTextArea.value = middle.textContent;
     nameTextArea.setAttribute("spellcheck", "false");
     middle.textContent = "";
+
+    editCategory.onclick = () => {
+      sessionEditActivityList.classList.toggle("hidden");
+      editCategory.querySelector("i").classList.toggle("edit");
+    };
 
     nameTextArea.addEventListener("keypress", (event) => {
       if (event.key === "Enter") {
@@ -379,7 +430,69 @@ function toggleEdit() {
       }
     });
     middle.appendChild(nameTextArea);
+
+    startTime.onclick = () => {
+      timeEdit(startTime, true);
+    };
+
+    endTime.onclick = () => {
+      timeEdit(endTime, false);
+    };
+
+    function timeEdit(timeContainer, start) {
+      const timedivs = timeContainer.querySelectorAll("div");
+      for (let i = 0; i < timedivs.length; i++) {
+        timedivs[i].textContent = "";
+      }
+      const inputh = document.createElement("input");
+      const inputm = document.createElement("input");
+      timeContainer.prepend(inputh);
+      timeContainer.append(inputm);
+      inputh.focus();
+      inputh.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+          inputh.blur();
+        }
+      });
+      inputh.addEventListener("blur", () => {
+        inputm.focus();
+      });
+      inputm.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+          inputm.blur();
+        }
+      });
+      inputm.addEventListener("blur", () => {
+        timeContainer.querySelectorAll("div")[0].textContent = formatTime(
+          +inputh.value
+        );
+        timeContainer.querySelectorAll("div")[1].textContent = formatTime(
+          +inputm.value
+        );
+        if (start) {
+          daySessions[currentSessionIndex].startTime.setHours(
+            +inputh.value,
+            +inputm.value
+          );
+        } else {
+          daySessions[currentSessionIndex].endTime.setHours(
+            +inputh.value,
+            +inputm.value
+          );
+        }
+        const timeinputs = timeContainer.querySelectorAll("input");
+        for (let k = 0; k < timeinputs.length; k++) {
+          timeContainer.removeChild(timeinputs[k]);
+        }
+      });
+    }
   } else {
     middle.textContent = middle.querySelector("textarea").value;
+    daySessions[currentSessionIndex].name = middle.textContent;
+    editCategory.onclick = "";
+    startTime.onclick = "";
+    endTime.onclick = "";
+
+    printDay();
   }
 }
