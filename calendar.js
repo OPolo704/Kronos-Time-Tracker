@@ -498,6 +498,23 @@ function toggleEdit() {
   }
 }
 
+sessionDeletebtn.onclick = () => {
+  const deletesesh = daySessions[currentSessionIndex];
+  const cat = deletesesh.category;
+  const deleteindex = sessionData[cat.id].findIndex((obj) => {
+    obj === deletesesh;
+  });
+  daySessions.splice(currentSessionIndex, 1);
+  sessionData[cat.id].splice(deleteindex, 1);
+
+  sessionEditPage.classList.add("hidden");
+  if (document.querySelector(".edit")) {
+    toggleEdit();
+  } else {
+    printDay();
+  }
+};
+
 sessionAddbtn.onclick = () => {
   const newSesh = new Session();
   newSesh.startTime = new Date();
