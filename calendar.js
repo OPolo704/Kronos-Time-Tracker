@@ -106,11 +106,7 @@ function createDateList() {
   currentDate = [today.getFullYear(), today.getMonth() + 1, today.getDate()];
 
   if (chronologicalData.length === 0) {
-    // if there are no sessions makes it so that current year is still registered, not really useful since you're not gonna be changing the year with no sessions but to maintain consistency ig
-    chronologicalData.push({
-      year: currentDate[0],
-      sessions: [],
-    });
+    createYear(currentDate[0]);
   }
 
   yearbtn.textContent = currentDate[0];
