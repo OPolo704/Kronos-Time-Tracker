@@ -1,15 +1,11 @@
-let viewedCategories =
-  JSON.parse(sessionStorage.getItem("viewedCategories")) || [];
+let viewedCategories = [];
 
 // STAT CALCULATION
 
 function processData() {
   let data = [];
   viewedCategories.forEach((cat) => {
-    let catDuration = 0;
-    sessionData[cat.id].forEach((session) => {
-      catDuration += session.getDuration();
-    });
+    const catDuration = categoryDuration(cat);
     const catData = {
       name: cat.name,
       duration: catDuration,
@@ -26,6 +22,21 @@ function processData() {
   }
 }
 
+function categoryDuration(cat) {
+  let catDuration = 0;
+  sessionData[cat.id].forEach((session) => {
+    catDuration += session.getDuration();
+  });
+
+  if (cat.subCategories.length > 0) {
+    cat.subCategories.forEach((subcat) => {
+      catDuration += categoryDuration(subcat);
+    });
+  }
+
+  return catDuration;
+}
+
 // STAT PAGE
 const ctx = document.getElementById("pie-chart");
 
@@ -38,7 +49,7 @@ const pieChart = new Chart(ctx, {
     labels: processedData.map((catData) => catData.name),
     datasets: [
       {
-        label: "Time spent in ms",
+        label: "Total time",
         data: processedData.map((catData) => catData.duration),
         backgroundColor: processedData.map((catData) => catData.color),
         borderWidth: 3,
@@ -48,6 +59,19 @@ const pieChart = new Chart(ctx, {
   },
   options: {
     plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const timeInMs = context.raw;
+            const time =
+              Math.floor(timeInMs / 3600000) +
+              "h " +
+              Math.floor((timeInMs / 60000) % 60) +
+              "m";
+            return "Total time: " + time;
+          },
+        },
+      },
       legend: {
         display: false,
       },
@@ -84,26 +108,34 @@ const categoryManager = document.querySelector(".category-manager");
 const categoryManagerList = document.querySelector(".category-manager-list");
 
 printCategories();
-createCategoryManagerList();
+createCategoryManagerList(categoryData, categoryManagerList);
+nestedCategoriesRefresh();
 
-function createCategoryManagerElement(cat) {
+function createCategoryManagerElement(cat, listElement) {
   const catElement = document.createElement("li");
+  const catElementDetails = document.createElement("div");
   const catElementName = document.createElement("span");
   catElementName.textContent = cat.name;
 
+  const caretDiv = document.createElement("div");
+  caretDiv.classList.add("caret-down");
+  caretDiv.onclick = (event) => {
+    event.currentTarget.parentElement.parentElement
+      .querySelector(".nested")
+      .classList.toggle("active");
+    event.currentTarget.classList.toggle("caret-down");
+  };
+
   const checkbox = document.createElement("i");
-  if (viewedCategories.some((obj) => obj.id === cat.id)) {
-    checkbox.classList.add("fa-regular", "fa-square-check");
-  } else {
-    checkbox.classList.add("fa-regular", "fa-square");
-  }
+  checkbox.classList.add("fa-regular", "fa-square");
   catElementName.appendChild(checkbox);
   catElementName.onclick = (event) => {
     categoryToggleView(event.currentTarget);
   };
 
-  catElement.appendChild(catElementName);
-  catElement.classList.add("category-manager-element");
+  catElementDetails.appendChild(caretDiv);
+  catElementDetails.appendChild(catElementName);
+  catElementDetails.classList.add("category-manager-element");
 
   const optionsDiv = document.createElement("div");
   optionsDiv.classList.add("category-options");
@@ -133,73 +165,216 @@ function createCategoryManagerElement(cat) {
   };
   optionsDiv.appendChild(trash);
 
-  catElement.appendChild(optionsDiv);
+  catElementDetails.appendChild(optionsDiv);
+  catElement.appendChild(catElementDetails);
 
-  categoryManagerList.insertBefore(
-    catElement,
-    document.querySelector(".category-add-btn")
-  );
+  const subCategoryList = document.createElement("ul");
+  subCategoryList.classList.add("nested");
+  subCategoryList.classList.add("active");
+  if (cat.subCategories.length !== 0) {
+    createCategoryManagerList(cat.subCategories, subCategoryList);
+  }
+  catElement.appendChild(subCategoryList);
+  listElement.appendChild(catElement);
 
-  catElement.draggable = true;
-  catElement.addEventListener("dragstart", () => {
-    catElement.classList.add("dragging");
-  });
+  catElement.querySelector(".category-manager-element").draggable = true;
+  catElement
+    .querySelector(".category-manager-element")
+    .addEventListener("dragstart", () => {
+      catElement.classList.add("dragging");
+      catElement.querySelector(".nested").classList.remove("active");
+      catElement
+        .querySelector(".category-manager-element")
+        .firstChild.classList.remove("caret-down");
+    });
 
-  catElement.addEventListener("dragend", () => {
+  catElement.addEventListener("dragend", (event) => {
+    event.stopPropagation(); // this shit fucked me up
     catElement.classList.remove("dragging");
 
-    if (catElement.nextSibling !== categoryAddbtn) {
-      const categoryIndex = categoryData.findIndex((element) => {
-        return element.name === catElement.textContent;
-      });
-      const categoryBeforeIndex = categoryData.findIndex((element) => {
-        return element.name === catElement.nextSibling.textContent;
-      });
+    const parentCategory = (() => {
+      for (let i = 0; i < categoryData.length; i++) {
+        if (
+          categoryData[i].name === catElement.querySelector("span").textContent
+        ) {
+          return categoryData;
+        } else if (categoryData[i].subCategories.length !== 0) {
+          const result = findParentCategory(
+            categoryData[i],
+            catElement.querySelector("span").textContent
+          );
+          if (result !== null) {
+            return result;
+          }
+        }
+      }
+      return null;
+    })();
 
-      categoryData.splice(
-        categoryBeforeIndex,
-        0,
-        categoryData.splice(categoryIndex, 1)[0]
+    let categoryObject;
+    if (parentCategory === categoryData) {
+      const categoryIndex = categoryData.findIndex(
+        (category) => category.name === catElement.textContent
       );
-      console.log(categoryData);
-    } else {
-      const categoryIndex = categoryData.findIndex((cat) => {
-        return cat.name === catElement.textContent;
-      });
 
-      categoryData.push(categoryData.splice(categoryIndex, 1)[0]);
+      categoryObject = categoryData.splice(categoryIndex, 1)[0];
+    } else {
+      const categoryIndex = parentCategory.subCategories.findIndex(
+        (category) => category.name === catElement.textContent
+      );
+
+      categoryObject = parentCategory.subCategories.splice(categoryIndex, 1)[0];
+    }
+
+    if (catElement.parentElement === categoryManagerList) {
+      const categoryIndex = [...categoryManagerList.children].indexOf(
+        catElement
+      );
+
+      categoryData.splice(categoryIndex, 0, categoryObject);
+    } else {
+      const newParentCategoryName =
+        catElement.parentElement.parentElement.querySelector(
+          "span"
+        ).textContent;
+      const newParentCategory = findCategory(
+        categoryData,
+        newParentCategoryName
+      );
+
+      const categoryIndex = [...catElement.parentElement.children].indexOf(
+        catElement
+      );
+
+      newParentCategory.subCategories.splice(categoryIndex, 0, categoryObject);
+    }
+
+    if (catElement.parentElement !== categoryManagerList) {
+      if (
+        catElement.parentElement.previousSibling.querySelector(
+          ".fa-square-check"
+        )
+      ) {
+        catElementName
+          .querySelector("i")
+          .classList.replace("fa-square", "fa-square-check");
+        catElementName.querySelector("i").style.opacity = 0.5;
+        catElementName.onclick = "";
+      } else {
+        catElementName.querySelector("i").style.opacity = 0.8;
+        catElementName.onclick = (event) => {
+          categoryToggleView(event.currentTarget);
+        };
+      }
+    } else {
+      // really annoying how I can't prevent the redundancy...
+      catElementName.querySelector("i").style.opacity = 0.8;
+      catElementName.onclick = (event) => {
+        categoryToggleView(event.currentTarget);
+      };
     }
   });
 
+  catElement
+    .querySelector(".category-manager-element")
+    .addEventListener("dragover", (event) => {
+      event.preventDefault();
+      const dragged = document.querySelector(".dragging");
+      const rect = catElement.getBoundingClientRect();
+
+      const middleLine = (rect.y + rect.bottom) / 2;
+      const middleLineHorizontal = (rect.x + rect.right) / 4;
+
+      const categoryParentElement = catElement.parentElement;
+      if (catElement === dragged) {
+        if (
+          event.clientX > middleLineHorizontal &&
+          categoryParentElement.children[0] !== catElement
+        ) {
+          catElement.previousSibling
+            .querySelector(".category-manager-element")
+            .querySelector("div")
+            .classList.add("caret-down");
+          catElement.previousSibling
+            .querySelector(".nested")
+            .classList.add("active");
+          catElement.previousSibling
+            .querySelector(".nested")
+            .appendChild(dragged);
+          nestedCategoriesRefresh();
+        }
+      } else if (event.clientY < middleLine) {
+        if (
+          event.clientX < middleLineHorizontal ||
+          categoryParentElement.children[0] === catElement
+        ) {
+          categoryParentElement.insertBefore(dragged, catElement);
+          nestedCategoriesRefresh();
+        } else {
+          if (catElement.previousSibling !== dragged) {
+            catElement.previousSibling
+              .querySelector(".category-manager-element")
+              .querySelector("div")
+              .classList.add("caret-down");
+            catElement.previousSibling
+              .querySelector(".nested")
+              .appendChild(dragged);
+            catElement.previousSibling
+              .querySelector(".nested")
+              .classList.add("active");
+            nestedCategoriesRefresh();
+          }
+        }
+      } else {
+        if (event.clientX < middleLineHorizontal) {
+          categoryParentElement.insertBefore(dragged, catElement.nextSibling); // works even when there is no next sibling since it'd be null and insertBefore null defaults to inserting at end
+          nestedCategoriesRefresh();
+        } else {
+          catElement
+            .querySelector(".category-manager-element")
+            .querySelector("div")
+            .classList.add("caret-down");
+          catElement.querySelector(".nested").appendChild(dragged);
+          catElement.querySelector(".nested").classList.add("active");
+          nestedCategoriesRefresh();
+        }
+      }
+    });
+
   catElement.addEventListener("dragover", (event) => {
-    event.preventDefault();
     const dragged = document.querySelector(".dragging");
-    const rect = catElement.getBoundingClientRect();
-
-    // const x = event.clientX - rect.x;
-    // const y = event.clientY - rect.y;
-    const middleLine = (rect.y + rect.bottom) / 2;
-
-    if (event.clientY < middleLine) {
-      categoryManagerList.insertBefore(dragged, catElement);
-    } else {
-      categoryManagerList.insertBefore(dragged, catElement.nextSibling);
+    const categoryParentElement = catElement.parentElement;
+    if (
+      event.target.nodeName === "UL" &&
+      event.target !== categoryManagerList
+    ) {
+      categoryParentElement.insertBefore(dragged, catElement.nextSibling);
+      nestedCategoriesRefresh();
     }
   });
 }
 
 function updateViewedCategories() {
-  viewedCategories = [];
-  for (let i = 0; i < categoryManagerList.children.length - 1; i++) {
-    const categoryName = categoryManagerList.children[i].textContent;
-    if (categoryManagerList.children[i].querySelector(".fa-square-check")) {
-      viewedCategories.push(
-        categoryData.find((obj) => obj.name === categoryName)
-      );
+  function checkCategoryArray(listElement) {
+    let length = listElement.children.length;
+    for (let i = 0; i < length; i++) {
+      if (
+        listElement.children[i]
+          .querySelector("div")
+          .querySelector(".fa-square-check")
+      ) {
+        const categoryName =
+          listElement.children[i].querySelector("div").textContent;
+        viewedCategories.push(findCategory(categoryData, categoryName));
+      } else if (
+        listElement.children[i].querySelector("ul").children.length > 0
+      ) {
+        checkCategoryArray(listElement.children[i].querySelector("ul"));
+      }
     }
   }
-
-  sessionStorage.setItem("viewedCategories", JSON.stringify(viewedCategories));
+  viewedCategories = [];
+  checkCategoryArray(categoryManagerList);
 }
 
 function categoryToggleView(button) {
@@ -207,15 +382,39 @@ function categoryToggleView(button) {
 
   if (icon.classList.contains("fa-square-check")) {
     icon.classList.replace("fa-square-check", "fa-square");
+
+    const subCategorySquareCheckIcons =
+      button.parentElement.nextSibling.querySelectorAll(".fa-square-check");
+    for (let i = 0; i < subCategorySquareCheckIcons.length; i++) {
+      subCategorySquareCheckIcons[i].style.opacity = 0.8;
+      subCategorySquareCheckIcons[i].parentElement.onclick = (event) => {
+        categoryToggleView(event.currentTarget);
+      };
+    }
   } else {
     icon.classList.replace("fa-square", "fa-square-check");
+
+    const subCategorySquareIcons =
+      button.parentElement.nextSibling.querySelectorAll(".fa-square");
+    for (let i = 0; i < subCategorySquareIcons.length; i++) {
+      subCategorySquareIcons[i].classList.replace(
+        "fa-square",
+        "fa-square-check"
+      );
+    }
+    const subCategorySquareCheckIcons =
+      button.parentElement.nextSibling.querySelectorAll(".fa-square-check");
+    for (let i = 0; i < subCategorySquareCheckIcons.length; i++) {
+      subCategorySquareCheckIcons[i].style.opacity = 0.5;
+      subCategorySquareCheckIcons[i].parentElement.onclick = "";
+    }
   }
 }
 
 function categoryToggleActivity(button) {
   const categoryName = button.parentElement.parentElement.textContent;
 
-  const category = categoryData.find((obj) => obj.name === categoryName);
+  const category = findCategory(categoryData, categoryName);
   if (category.activity) {
     button.classList.replace("fa-eye", "fa-eye-slash");
     category.activity = false;
@@ -250,9 +449,8 @@ function categoryRename(button) {
     }
     categoryElement.removeChild(btninput);
 
-    const categoryElementName = document.createElement("span");
+    const categoryElementName = categoryElement.querySelector("span");
     categoryElementName.textContent = newCategoryName;
-    categoryElement.prepend(categoryElementName);
 
     const checkbox = document.createElement("i");
     checkbox.classList.add("fa-regular", "fa-square-check");
@@ -261,22 +459,25 @@ function categoryRename(button) {
       categoryToggleView(event.currentTarget);
     };
 
-    const activity = categoryData.find((obj) => obj.name === categoryName);
+    const activity = findCategory(categoryData, categoryName);
     activity.name = newCategoryName;
   });
 }
 
 function categoryDelete(button) {
   const categoryElement = button.parentElement.parentElement;
-  const categoryName = button.parentElement.parentElement.textContent;
+  const categoryName =
+    button.parentElement.parentElement.querySelector("span").textContent;
   const categoryIndex = categoryData.findIndex(
     (obj) => obj.name === categoryName
   );
+  const categoryParentElement = categoryElement.parentElement.parentElement;
 
   // ADD POP UP TO CONFIRM DECISION, DELETES ALL SESSIONS ASSOCIATED WITH CATEGORY
   sessionData[categoryData[categoryIndex].id] = [];
   categoryData.splice(categoryIndex, 1);
-  categoryManagerList.removeChild(categoryElement);
+  categoryParentElement.removeChild(categoryElement.parentElement);
+  nestedCategoriesRefresh();
 }
 
 function categoryManagerToggle() {
@@ -300,28 +501,36 @@ function categoryManagerClose() {
   categoryManagerToggle();
 }
 
-function createCategoryManagerList() {
-  categoryData.forEach((cat) => {
-    createCategoryManagerElement(cat);
+function createCategoryManagerList(categoryArray, categoryArrayElement) {
+  categoryArray.forEach((cat) => {
+    createCategoryManagerElement(cat, categoryArrayElement);
   });
 }
 
 categoryAddbtn.onclick = () => {
   const newCategory = new Category("");
   categoryData.push(newCategory);
-  createCategoryManagerElement(newCategory);
+  createCategoryManagerElement(newCategory, categoryManagerList);
   categoryRename(
-    categoryAddbtn.previousSibling.querySelector(".fa-pen-to-square")
+    categoryManagerList.lastElementChild.querySelector(".fa-pen-to-square")
   );
 };
 
-function toglersRefresh() {
-  const toggler = document.querySelectorAll(".caret");
-
-  for (let i = 0; i < toggler.length; i++) {
-    toggler[i].addEventListener("click", function () {
-      this.parentElement.querySelector(".nested").classList.toggle("active");
-      this.classList.toggle("caret-down");
-    });
+function nestedCategoriesRefresh() {
+  function checkNested(parentElement) {
+    for (let i = 0; i < parentElement.children.length; i++) {
+      const catElement = parentElement.children[i];
+      if (catElement.querySelector(".nested").querySelector("li")) {
+        checkNested(catElement.querySelector(".nested"));
+        catElement
+          .querySelector(".category-manager-element")
+          .firstChild.classList.add("caret");
+      } else {
+        catElement
+          .querySelector(".category-manager-element")
+          .firstChild.classList.remove("caret");
+      }
+    }
   }
+  checkNested(categoryManagerList);
 }
