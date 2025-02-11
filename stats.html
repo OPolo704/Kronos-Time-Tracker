@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script
+      src="https://kit.fontawesome.com/7036043621.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="images/Kronos Time Tracker logo png.png"
+    />
+    <title>Kronos Time Tracker | Statistics</title>
+  </head>
+  <body>
+    <i onclick="mainRedirect()" class="fa-solid fa-angle-left"></i>
+    <div class="stat-1">
+      <div class="pie-chart">
+        <canvas id="pie-chart"></canvas>
+      </div>
+    </div>
+
+    <div class="categories">
+      <button class="categories-btn">Manage Categories</button>
+    </div>
+
+    <div class="category-list">
+      <div class="category-list-grid"></div>
+    </div>
+
+    <div class="category-manager hidden">
+      <i onclick="categoryManagerClose()" class="fa-solid fa-xmark"></i>
+      <ul class="category-manager-list"></ul>
+      <li
+        class="category-manager-element category-add-btn"
+        style="cursor: pointer"
+      >
+        + Add Category
+      </li>
+    </div>
+    <script src="DragDropTouch.js"></script>
+    <script src="shared.js"></script>
+    <script src="stats.js"></script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+refresh activity list when sync
+overwrite/delete old kronosData.json
+token refresh
+
+run a check when syncing to eliminate deleted categories from sessionData array
+remove scrollbar on main page
+
+MAIN
+big one - minimum session length of like 2min
+separate screen when a session is running which lets you change sessionName n shit
+warning when you try to end a session below 5min cuz of minimum session length
+sessionName distributed between all split sessions
+position i button absolutely
+get rid of highlight when clicking buttons
+last used category moves to top <- can actually code this using sessiondata 😱
+style activity list sidebar
+ACCOUNT POP UP 👨‍💻
+sync functionality
+log out functionality
+
+STATS 
+colors changeable by clicking on colorbox and dragging a hue slider 👨‍💻
+maybe lower brightness of color when clicking
+ellipsis on long text that overflows like WWWWWWWWWWWw
+add presets for stat viewing, top preset becomes default
+with the presets, also add date select --> date select a range of days and it will display the data for those days, maybe quick settings like (last) day, week, month or specific months (mar, feb..)
+data export options
+CATEGORY MANAGER
+you can make any change to a category more efficient by finding the category using its parent elements instead of findCategory()
+unselect all button
+addbtn add default name when empty
+make it so that id for newcat is also decided by first checking for empty arrays in sessionData and using them thus reusing some of the old ids
+are you sure you want to delete category and all the sessions that are part of it? message
+do something about untracked category & unsorted
+on rename maintain check box state
+limit amount of branching? 6 nested cats? - or make it so that when it going over the right margin it stops indenting each subcat
+idea: new section that opens when you like hold on a category or something that lists all the previously recorded sessions of that cat
+
+CALENDAR
+make number of days accurate to the months' day count
+show day of the week to the left of the date select
+in the sessiondata foreach in calendar.js check for empty array at index maybe
+maybe change date select for a month calendar and/or ability to type in date similar to activity select
+add for desktop a week and maybe month view option
+do something about overlap?
+maybe change sessionblocks inside to a grid and do it so that when possible have top div and then bottom div elements position name on top of duration, but when no space have name and duration on the same row
+if I make a month view make it so that you can filter out by categories and see which days you've done x n such
+add checks for valid times when modifying time of session (starttime before endtime, valid time not 27:62, above min session time)
+when the edited session is below minimum session time, delete (with the warning ofc)
+refresh duration right after time change
+add warning when deleting a session
+add drag functionality to change the time when editing a session
+
+
+general nice additions
+ensure hover functionality on everything
+sync animation on sync button
+category manager smooth scroll up animation when opening and closing, maybe even slide down to close
+make sure text is not selectable
+calendar bottom and top add shadow when there is still space to scroll
+
+
+block name "Unsorted" when making categories
+block update drive while session running
+when change to localstorage instead of sessionStorage complete, add a check to script.js for if a sesh is still running by adding newSession to localstorage
+
+change viewedcategories to enabledcategories? or something different
+
+REMOVE WHITE SPACE TO END THE CATEGORY NAME (aka "Coding " --> "Coding")
+block duplicate names cat manager --> new idea when renaming to a prexesisting name, categories' sessions get merged under the new name with pop up warning
+block empty as well with "Unnamed Category"
+
+
+
+idea for future: when selecting activity clear select activity bar and turn it into a search bar the filters options
+learn react and implement dnd kit (https://www.youtube.com/watch?v=RG-3R6Pu_Ik)
